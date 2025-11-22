@@ -153,13 +153,17 @@ class UIManager {
         const form = document.querySelector('#contenedor_IU_form form') || document.getElementById('form_iu');
         if (!form) return;
 
-        form.onsubmit = (event) => {
+        if (form.dataset.uiManagerValidationAttached === 'true') return;
+        form.dataset.uiManagerValidationAttached = 'true';
+
+        form.addEventListener('submit', (event) => {
             const isValid = this.validateCurrentAction(form, action);
             if (!isValid) {
                 event.preventDefault();
+                return;
             }
             // Punto de integración con el back: cuando haya conexión, disparar la llamada correspondiente.
-        };
+        }, true);
     }
 
     validateCurrentAction(form, action) {
