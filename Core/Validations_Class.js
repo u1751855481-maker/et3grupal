@@ -117,11 +117,87 @@ class Validations{
 		return true;
 	}
 
-	format_name_file(id, exprreg){
-		let objfile = document.getElementById(id);
-		let expresionregular = new RegExp(exprreg);
-		let valor = objfile.files[0].name;
-		return expresionregular.test(valor);
-	}
+        format_name_file(id, exprreg){
+                let objfile = document.getElementById(id);
+                let expresionregular = new RegExp(exprreg);
+                let valor = objfile.files[0].name;
+                return expresionregular.test(valor);
+        }
+
+        /**
+         * Valida un valor simple según un conjunto de reglas de validación
+         * definido en la estructura de la entidad para una acción concreta (ADD, EDIT, SEARCH).
+         * @param {any} value Valor a validar.
+         * @param {Object} rulesForAction Objeto con las reglas para la acción (min_size, max_size, exp_reg, etc.).
+         * @returns {{ isValid: boolean, errorCodes: string[] }}
+         */
+        validateValueAgainstRules(value, rulesForAction) {
+                const errorCodes = [];
+
+                if (rulesForAction?.min_size !== undefined) {
+                        const length = value?.length ?? 0;
+                        if (length < rulesForAction.min_size) {
+                                errorCodes.push('ERR_MIN_SIZE');
+                        }
+                }
+
+                if (rulesForAction?.max_size !== undefined) {
+                        const length = value?.length ?? 0;
+                        if (length > rulesForAction.max_size) {
+                                errorCodes.push('ERR_MAX_SIZE');
+                        }
+                }
+
+                if (rulesForAction?.exp_reg !== undefined) {
+                        const regex = new RegExp(rulesForAction.exp_reg);
+                        const valueToTest = typeof value === 'string' ? value : value?.name ?? '';
+                        if (!regex.test(valueToTest)) {
+                                errorCodes.push('ERR_EXP_REG');
+                        }
+                }
+
+                // Soporte inicial para validaciones de fichero
+                if (rulesForAction?.no_file && !value) {
+                        errorCodes.push('ERR_NO_FILE');
+                }
+
+                if (rulesForAction?.max_size_file !== undefined && value?.size !== undefined) {
+                        const maxSizeRule = Array.isArray(rulesForAction.max_size_file)
+                                ? rulesForAction.max_size_file[0]?.max_size_file ?? rulesForAction.max_size_file[0]
+                                : rulesForAction.max_size_file;
+                        if (maxSizeRule !== undefined && value.size > maxSizeRule) {
+                                errorCodes.push('ERR_MAX_SIZE_FILE');
+                        }
+                }
+
+                if (rulesForAction?.type_file !== undefined && value?.type !== undefined) {
+                        const allowedTypes = Array.isArray(rulesForAction.type_file)
+                                ? rulesForAction.type_file.map((rule) => rule.type_file ?? rule)
+                                : [rulesForAction.type_file];
+                        if (!allowedTypes.includes(value.type)) {
+                                errorCodes.push('ERR_TYPE_FILE');
+                        }
+                }
+
+                if (rulesForAction?.format_name_file !== undefined && value?.name !== undefined) {
+                        const formatRule = Array.isArray(rulesForAction.format_name_file)
+                                ? rulesForAction.format_name_file[0]?.format_name_file ?? rulesForAction.format_name_file[0]
+                                : rulesForAction.format_name_file;
+                        if (formatRule !== undefined) {
+                                const nameRegex = new RegExp(formatRule);
+                                if (!nameRegex.test(value.name)) {
+                                        errorCodes.push('ERR_FORMAT_NAME_FILE');
+                                }
+                        }
+                }
+
+                const isValid = errorCodes.length === 0;
+                return { isValid, errorCodes };
+        }
+
+        // validateFieldFromStructure(entityStructure, attributeName, action, formElement) {
+        //      Método futuro que combinará la estructura de la entidad con la lectura del DOM
+        //      para validar un campo específico según la acción indicada.
+        // }
 
 }
