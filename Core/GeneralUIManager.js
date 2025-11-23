@@ -185,10 +185,9 @@ class UIManager {
         });
 
         form.addEventListener('submit', (event) => {
-            event.preventDefault();
-
             const validationResult = this.validateFormOnSubmit(form, action);
             if (!validationResult.isValid) {
+                event.preventDefault();
                 this.showGlobalErrorSummary(validationResult.errors, action);
                 if (validationResult.firstInvalidElement) {
                     validationResult.firstInvalidElement.focus();
@@ -196,13 +195,18 @@ class UIManager {
                 return;
             }
 
+            event.preventDefault();
+
             this.hideGlobalErrorSummary();
 
             const formData = this.collectFormData(form);
             console.log(`Formulario válido para acción ${action}`, formData);
             this.showSuccessMessage(action);
-            // Punto de integración con el back: aquí se invocaría a ExternalAccess_class.js
-            // para ejecutar la acción real (ADD, EDIT, SEARCH) cuando se conecte con el servidor.
+
+            // Reenvía el submit nativo para ejecutar la acción definida en el formulario
+            // (por ejemplo, javascript:entidad.ADD()). form.submit() no dispara de nuevo
+            // los manejadores de submit, evitando recursión.
+            form.submit();
         }, true);
     }
 
