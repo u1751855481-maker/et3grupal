@@ -4,10 +4,15 @@
  * Se apoya en clases ya existentes (entidades concretas, builder de formularios/tablas y validaciones)
  * y expone puntos de integración claros para el back y para renderizadores dinámicos.
  */
+// Base seguro para evitar errores de carga cuando EntidadAbstracta aún no está disponible.
+const GenericBaseEntity = typeof EntidadAbstracta === 'function' ? EntidadAbstracta : class {
+    constructor(...args) {}
+};
+
 // Entidad genérica de fallback cuando no existe una clase concreta para la entidad seleccionada.
 // Hereda de EntidadAbstracta únicamente para reutilizar utilidades (dom, validations, etc.),
 // pero se inicializa en modo test para no generar formularios automáticos ni lanzar SEARCH.
-class GenericStructureEntity extends EntidadAbstracta {
+class GenericStructureEntity extends GenericBaseEntity {
     constructor(entityName, structure = {}) {
         super('test');
         this.entityName = entityName;
