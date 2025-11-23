@@ -50,7 +50,10 @@ function setLang(lang=''){
         }
 
         for (var i = 0; i < etiquetas.length; i++) {
-            if (etiquetas[i].htmlFor == clave) {
+            var forValue = etiquetas[i].htmlFor || '';
+            var normalizedForValue = forValue.indexOf('_') !== -1 ? forValue.substring(forValue.indexOf('_') + 1) : forValue;
+
+            if (forValue === clave || normalizedForValue === clave) {
                 etiquetas[i].innerHTML = traduccion[clave];
             }
         }
