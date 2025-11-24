@@ -1,92 +1,401 @@
-Tareas Obligatorias de Codex
-Codex debe implementar todas las siguientes tareas para cumplir con los requisitos de la Entrega ET3: - Generación dinámica de interfaz CRUD: Construir dinámicamente la interfaz de usuario para cualquier entidad dada su definición de estructura. Debe incluir pantallas de Presentación de Datos, Alta (ADD), Baja (DELETE), Modificación (EDIT), Búsqueda (SEARCH) y Detalle (SHOWCURRENT), siguiendo la interacción explicada en la asignatura. - Validación de formularios: Incorporar validación exhaustiva de campos en los formularios de forma individual por campo (al introducir datos) y a nivel de formulario (al hacer submit), según las reglas definidas para cada acción. Estas validaciones deben activarse tal como se indicó en ET2. - Soporte multiidioma en la interfaz: Implementar soporte para al menos dos idiomas (Español e Inglés). Todos los textos de la interfaz deben traducirse dinámicamente en tiempo real según el idioma seleccionado. (Nota: Como no es posible escribir ficheros desde JS, las traducciones deben cargarse en memoria; para mensajes de error que utilicen códigos, mostrar el código seguido de “-ES” o “-EN” según el idioma.) - Funcionalidad genérica por entidad: El sistema no debe estar acoplado a una entidad específica. Debe funcionar con cualquier estructura de entidad proporcionada, sin necesidad de modificar el código. (Se probará con tres entidades definidas por el equipo, distintas de la entidad de ejemplo "persona"). Toda la información necesaria para construir la interfaz y validar debe provenir de la estructura de datos de cada entidad.
-Estructura Mínima del Proyecto (Archivos Requeridos)
-El proyecto debe contener, como mínimo, los siguientes archivos con el nombre exacto indicado, ya que su ausencia o nombre incorrecto implicará no superar la entrega: - index.html: Página principal que carga la aplicación. Debe incluir: - Un menú dinámico con opciones para cada entidad disponible. Al seleccionar una opción, se invocará una función o clase pasándole el nombre de la entidad correspondiente, instanciando la clase específica de esa entidad (si existe) o una clase genérica que pueda gestionar cualquier entidad. Esta página no debe contener datos estáticos salvo lo imprescindible; todo el contenido de gestión de entidades se genera dinámicamente. - Las referencias a todos los recursos necesarios (hojas de estilo CSS, archivos JS). En particular, se deben cargar al menos: - La clase general de la aplicación (instanciada en el evento onload de la página). - La clase abstracta para gestionar cualquier entidad de forma genérica. - La clase encargada de creación y manipulación de tablas y formularios. - La clase de validaciones generales (incluyendo manejo de fechas). - La clase de gestión de idiomas (multiidioma). - IU.css: Hoja de estilos con todas las reglas de presentación de la interfaz. Debe contener la apariencia para formularios, tablas, menús, mensajes de error, etc., asegurando una interfaz clara y consistente (p. ej., siguiendo la estructura HTML/CSS indicada en la Semana 8-CSS). - ET3_Datos_NombreEquipo.js: Fichero JavaScript que provee los datos del equipo. Debe estar ubicado al mismo nivel que index.html. En él se define una variable array (por ejemplo, def_datos_NombreEquipo) que incluye, para cada integrante del grupo: - Entrega (identificador de la entrega, ej. "ET3"), - Nombre del alumno, - DNI, - Horas dedicadas a la realización de la entrega.
-Importante: index.html debe leer dinámicamente esta estructura y mostrar dicha información en la página (por ejemplo, en una tabla o sección de información del equipo). No escribir estos datos manualmente en el HTML. - API.html: Página de documentación de la API desarrollada. Debe estar enlazada desde index.html (por ejemplo, mediante un ícono o enlace visible) y ubicada al mismo nivel que index.html. Debe describir todas las funciones y métodos implementados en el proyecto, indicando para cada uno: - Su nombre. - Parámetros que recibe (nombre de cada parámetro, tipo de dato y descripción de su uso). - Valor de retorno (tipo de dato, significado y formato).
-Esta documentación debe ser clara y completa para que un desarrollador externo entienda cómo usar la API del proyecto.
-Componentes y Funcionalidades Requeridas
-Codex debe asegurarse de incluir los siguientes componentes clave y cumplir con las funcionalidades especificadas para cada uno:
-•	Menú dinámico por entidad: En la interfaz principal (index.html) debe haber un menú o listado de entidades disponibles. Cada opción del menú, al ser seleccionada, debe:
-•	Pasar el nombre de la entidad seleccionada a un controlador (p. ej., una función o método de una clase principal).
-•	Este controlador instanciará la clase correspondiente a la entidad (si existe una clase específica definida para ella) o instanciará una clase genérica que utilizará la estructura de datos de esa entidad para generar la interfaz.
-Ejemplo: Si el menú incluye "Alumno" y "Asignatura", al hacer clic en "Alumno" se debe invocar algo como cargarEntidad('Alumno') que intente new Alumno() (si la clase Alumno existe) o sino new EntidadGenerica('Alumno') para construir la IU basada en la estructura.
-•	Formularios dinámicos para CRUD: Para cada entidad y cada acción (Añadir, Editar, Buscar, etc.), Codex debe generar el formulario HTML de manera dinámica a partir de la estructura de la entidad:
-•	Utilizar un método general (por ejemplo, CreateForm(accion, datos)) que reciba la acción a realizar (ADD, EDIT, SEARCH, SHOWCURRENT) y, si aplica, los datos de la tupla (p. ej., datos existentes al editar) y construya el formulario correspondiente.
-•	Incluir en cada formulario solo los campos pertinentes según la acción. Por ejemplo, en SEARCH pueden permitirse campos vacíos (todas las condiciones opcionales), en DELETE/SHOWCURRENT los campos pueden ser solo de lectura, etc., según lo explicado en la asignatura.
-•	No escribir el código HTML de los formularios a mano para cada entidad/acción; el formulario debe generarse leyendo la definición de cada atributo en la estructura de la entidad.
-•	Creación dinámica de tablas de datos: Implementar un método para crear tablas HTML de forma genérica. Por ejemplo, una función crearTabla(datos) que reciba un conjunto de registros (p. ej., resultado de un SEARCH o listado general) y genere dinámicamente una tabla con filas y columnas adecuadas. Esta tabla debe poder mostrar los datos de cualquier entidad (usando los nombres de atributos como encabezados, por ejemplo).
-•	Validación de campos (automática por campo): Cada campo de formulario debe validarse inmediatamente según las reglas definidas en la estructura cuando el usuario lo rellena o modifica (ej. en el evento onblur o onchange del campo). Las validaciones generales (tamaño mínimo/máximo, formato, etc.) deben estar implementadas en una clase de validaciones reutilizable. Deben incluirse validaciones de fechas (p. ej., formato de fecha correcto o rango válido) dentro de estas validaciones generales. Si un campo no cumple una regla, debe mostrarse un mensaje de error apropiado junto a ese campo antes de que el formulario se envíe.
-•	Validación de formulario (por acción al submit): Implementar una validación final cuando el usuario intenta enviar un formulario, dependiente de la acción:
-•	Esta verificación global debe asegurarse de que todos los campos obligatorios según la acción están presentes y válidos. Por ejemplo, en ADD/EDIT ningún campo requerido puede faltar o ser inválido; en SEARCH quizás no haya campos obligatorios, pero igualmente podría verificarse algún criterio mínimo si aplica.
-•	Si alguna validación de nivel de formulario falla, se debe bloquear el envío y notificar al usuario (p. ej., mostrando mensajes o resaltando errores globales).
-•	Validaciones personalizadas por entidad: El sistema debe soportar también reglas de validación particulares que sean propias de una entidad o campo:
-•	La estructura de entidad puede indicar para un campo y acción una propiedad personalized: true. Esto implica que existirá en la clase específica de esa entidad un método de validación adicional para ese campo (por convención, podría llamarse specialized_test_<nombreAtributo>()).
-•	Codex debe estar preparado para llamar a esas funciones de validación personalizada además de las validaciones generales automáticas, solo para aquellas entidades/campos que lo requieran.
-•	Soporte multiidioma: Incluya una clase de gestión de idiomas encargada de cargar y cambiar los textos de la interfaz entre al menos Español e Inglés. Requisitos:
-•	Los textos visibles (etiquetas de campos, títulos, textos de botones, mensajes de validación, etc.) deben almacenarse en alguna estructura (por ejemplo, objetos o diccionarios JS) para cada idioma, o en la propia estructura de la entidad si así se decide, de forma que al cambiar de idioma se reemplacen en vivo en la interfaz.
-•	Como no se puede generar/guardar nuevos archivos desde JavaScript, la aplicación debe traer las traducciones ya incluidas (p. ej., en el propio código o ficheros JS de recursos) y no depender de cargar ficheros al vuelo.
-•	En el caso de códigos de error o mensajes que por diseño estén codificados (p. ej., códigos de validación), mostrar el código seguido del sufijo de idioma (ej.: ERROR_CAMPO_VACIO-ES o ERROR_CAMPO_VACIO-EN) si no es posible mapear el código a una descripción legible.
-•	El cambio de idioma debe reflejarse de inmediato en todos los textos de la página sin necesidad de recargarla (live translation).
-•	Lectura de estructura de entidad y generación de UI: Al elegir una opción del menú (una entidad), el sistema debe leer la estructura de datos correspondiente a esa entidad y, a partir de ella, generar toda la interfaz de gestión:
-•	Esto incluye crear o mostrar la tabla de datos existente, los formularios para las distintas acciones, etc., según la navegación o acciones que el usuario solicite.
-•	La estructura de la entidad define todo lo necesario: nombres de campos, tipos de input, reglas de validación, etc., por lo que Codex debe basarse exclusivamente en esa estructura para construir la IU (no en supuestos internos codificados).
-•	Nota: La estructura de datos para una entidad sigue un formato JSON predefinido. Por ejemplo:
+# AGENTS.md – Proyecto ET3 (Interfaz genérica de gestión de entidades)
 
- 	const estructura_ejemplo = {
-  entity: "nombreEntidad",
-  attributes: {
-    nombreAtributo: {
-      html: {
-        tag: "input/select/textarea/...", 
-        type: "text/number/date/file/...",  
-        options: ["op1", "op2"],       // (solo si tag select)
-        rows: 5, columns: 40,         // (solo si tag textarea)
-        multiple: false,              // (true si selección múltiple en file/select/checkbox)
-        component_visible_size: 20    // tamaño físico del campo en pantalla (columnas visibles)
-      },
-      rules: {
-        validations: {
-          ADD: {                      // reglas de validación para acción ADD (ejemplo)
-            min_size: 3,              // tamaño mínimo de texto = 3 caracteres
-            max_size: 50,             // tamaño máximo = 50
-            exp_reg: /^ABC/,          // expresión regular de formato (ejemplo)
-            no_file: true,            // (ejemplo para files: debe seleccionarse un fichero)
-            max_size_file: [{ max_size_file: 2000000 }], // tamaño máx de fichero = 2MB
-            type_file: [{ type_file: "image/jpg" }],     // tipo MIME permitido
-            format_name_file: [{ format_name_file: /^[A-Za-z0-9_]+\\.jpg$/ }], // nombre fichero válido
-            personalized: false       // false = no hay validación personalizada adicional para este campo
-          },
-          /* ... ADD, EDIT, SEARCH etc según corresponda ... */
-        }
-      }
-    },
-    // ... más atributos ...
-  }
-};
- 	Codex debe usar esta estructura para saber cómo renderizar cada campo (tipo de control HTML, opciones, tamaños) y qué validaciones aplicar en cada caso.
-•	Clases JavaScript obligatorias: Además de la clase de idiomas ya mencionada, se espera que el proyecto defina e incluya las siguientes clases (o módulos equivalentes) en ficheros JS separados, organizados lógicamente:
-•	Clase general de aplicación: Inicializada al cargar la página, encargada de la lógica principal (por ejemplo, manejar el evento de onload, inicializar el menú dinámico, gestionar cambios de idioma, etc.).
-•	Clase abstracta de entidad: Define el comportamiento común para gestionar cualquier entidad (por ejemplo, métodos genéricos para altas, bajas, consultas, mostrar detalles, manejar validaciones comunes, etc.). Las entidades específicas pueden heredar de esta clase o usar su funcionalidad.
-•	Clase de creación de UI (Formularios/Tablas): Encapsula la lógica de generación de elementos HTML (formularios y tablas) basándose en la estructura de entidad. Por ejemplo, métodos para crear un input según las propiedades recibidas, ensamblar un formulario completo según la acción, crear una fila de tabla, etc.
-•	Clase de validaciones generales: Contiene las funciones atómicas de validación reutilizables (tamaño mínimo, máximo, regex, validación de fecha, etc.) y lógica para ejecutar automáticamente las validaciones de cada campo según su definición. Debe poder extenderse o ser usada por las clases de entidad para comprobar reglas.
-•	Clases de entidad específicas (opcional según necesidad): Si alguna entidad requiere comportamiento especial (por ejemplo, validaciones personalizadas marcadas como personalized: true en su estructura), se puede definir una clase propia para esa entidad que implemente los métodos necesarios (por ejemplo, specialized_test_<Atributo>()). Estas clases específicas deberían heredar de la clase abstracta de entidad para reutilizar la funcionalidad común.
-Validaciones de Campos y Formularios
-Validación automática por campo (Validaciones generales)
-Cada atributo definido en la estructura de una entidad tiene asociadas unas reglas de validación generales que deben aplicarse de forma automática. Codex debe implementar lo siguiente: - Ejecución automática: Al introducir o modificar un campo del formulario, se ejecutan inmediatamente sus validaciones definidas para la acción en curso (ADD, EDIT, SEARCH…). Esto proporciona feedback instantáneo al usuario sobre datos inválidos. - Funciones de validación atómicas: Incluir funciones reutilizables para cada tipo de regla general, tales como: - min_size (longitud mínima de texto), - max_size (longitud máxima), - exp_reg (patrón de expresión regular que el valor debe cumplir), - no_file (verifica que se haya seleccionado un fichero cuando es requerido), - max_size_file (tamaño máximo permitido para archivos subida), - type_file (tipo MIME de archivo permitido), - format_name_file (formato/nombre de archivo permitido). - Mensajes de error por campo: Si un campo no pasa una validación automática, se debe mostrar un mensaje de error claramente asociado a ese campo (por ejemplo, debajo del input) indicando qué regla se incumple. Los mensajes pueden estar codificados por idioma (usando la gestión multiidioma, o usando códigos de error con sufijo de idioma como se indicó antes).
-Validación personalizada por campo (Opcional por entidad)
-Algunas validaciones pueden ser específicas de la lógica de negocio de una entidad y no cubrirse con las funciones generales. Para esas situaciones: - La estructura del atributo puede marcar personalized: true bajo ciertas acciones, indicando que existe un método de validación particular en la clase de la entidad. - Codex debe detectar esta marca y, además de las validaciones generales, invocar el método personalizado correspondiente. Por convención, este método podría nombrarse specialized_test_<NombreAtributo>() dentro de la clase de la entidad. - El método personalizado debe devolver si el campo es válido según la lógica específica (por ejemplo, comprobar que un código de asignatura sigue un cálculo o patrón especial no cubierto por una simple regex). - Si la validación personalizada falla, se mostrará un mensaje de error específico (puede utilizar un código de error especial, que se visualizará con sufijo de idioma, o un mensaje directo traducible).
-Validación al enviar el formulario (Submit por acción)
-Además de las validaciones campo a campo, cada formulario debe realizar una validación global al intentar enviarse, acorde a la acción: - Recolección de errores pendientes: Al hacer submit, si algún campo tiene errores sin resolver (o quedó sin validar después de cambios), el formulario no debe proceder. Es decir, el sistema debe verificar todos los campos de nuevo, o asegurarse de que no queda ningún error activo antes de permitir la operación. - Reglas por tipo de acción: Algunas validaciones son a nivel de formulario completo. Ejemplos: - En ADD/EDIT: verificar que todos los campos obligatorios fueron completados y válidos. Podría incluir comprobaciones cruzadas entre campos si aplica (p. ej., confirmación de contraseña igual a contraseña). - En SEARCH: permitir campos vacíos (ya que la búsqueda puede ser parcial), pero tal vez exigir un mínimo de algún criterio para evitar búsquedas vacías totales, si así se definió. - En DELETE: usualmente no se introduce información nueva, pero podría validarse que la selección del elemento a eliminar es correcta. - Bloqueo de envío y notificación: Si alguna validación de submit falla, se debe cancelar el envío (por ejemplo, no hacer el submit real) y notificar al usuario. La notificación puede ser mediante un alert, un mensaje general en el formulario, o resaltando en rojo los campos que faltan. Lo importante es que el usuario sepa que la acción no se completó y por qué. - Submit exitoso: Solo cuando todas las validaciones (automáticas y globales) pasan, se podrá proceder a la acción (por ejemplo, enviar los datos al backend o simular la operación). Si en este proyecto las operaciones de backend no están implementadas, al menos debe quedar claro que la validación fue exitosa (p. ej., mostrando un mensaje de éxito o limpiando el formulario).
-Campos de Formulario Soportados y Formatos HTML Permitidos
-Tipos de componentes de formulario soportados
-La generación dinámica de formularios debe cubrir al menos los siguientes tipos de input HTML, según lo requerido por la definición de los atributos: - <input> (campo de entrada estándar): Debe soportar todos los tipos relevantes a la entidad: - Texto (type="text"), - Números (type="number"), - Fechas (type="date"), - Ficheros (type="file"), - Otros tipos comunes (email, tel, etc.) si alguna entidad lo requiere (basándose en el atributo type definido en la estructura). - <textarea>: Para campos de texto multilínea. Usar los atributos rows y columns definidos en la estructura para dimensionar el área de texto. - <select> desplegable: Soportar selects de selección simple y con selección múltiple: - Utilizar la propiedad options (array de valores) de la estructura para poblar las opciones del <select>. - Si multiple: true en la definición, generar un <select multiple> que permita escoger varios valores. - Grupo de botones de opción (<input type="radio">): Para campos donde se deba elegir una opción entre varias (selección única): - Generar un grupo de radio buttons con el mismo name para que sean mutuamente excluyentes. - Las opciones pueden derivarse también de una lista (similar a options) o de valores conocidos del contexto. - (Nota: “radio simple” se refiere a casos con dos opciones binarias posiblemente, y “radio múltiple” podría referirse a varios grupos de radio en el formulario, pero esencialmente el componente base es el mismo radio input). - Casillas de verificación (<input type="checkbox">): Para campos booleanos o de selección múltiple de opciones: - Si la intención es un único valor verdadero/falso, usar una sola casilla (checkbox simple). - Si se necesita permitir selección de múltiples items entre opciones, usar varios checkboxes con el mismo nombre (ejemplo: seleccionar varios intereses) o un <select multiple> según preferencia de implementación. La estructura multiple: true en un checkbox indicaría posiblemente un grupo de checkboxes. - Botones de acción (<button> / <input type="submit">): Cada formulario debe incluir los botones necesarios: - Un botón de Submit para enviar la acción (texto dependiendo de la acción: "Agregar", "Buscar", "Actualizar", etc., traducido según idioma). - Opcionalmente un botón de Reset/Limpiar en el caso de SEARCH u otros, para facilitar al usuario. - Botones de volver o cancelar si aplica (por ejemplo, en formularios ADD/EDIT para regresar a la vista de lista).
-Todos estos componentes deben crearse atendiendo a las propiedades definidas en la estructura de la entidad. No se deben agregar campos que no estén en la estructura, ni omitir los que sí estén definidos (salvo que explícitamente una acción no deba mostrarlos, p. ej., contraseña en SEARCH). Asimismo, cada campo debe llevar su correspondiente label descriptiva (que también puede obtenerse de la estructura, posiblemente de una sub-propiedad que indique el texto legible, o directamente usando el nombre del atributo si no hay otra referencia, aplicado a multiidioma).
-Tipos de validaciones implementadas
-A partir de las reglas definidas en las estructuras de entidad, Codex debe implementar las siguientes validaciones estándar (en la clase de validaciones generales), asegurándose de contemplar los parámetros necesarios: - Tamaño mínimo (min_size): Longitud mínima permitida para el valor de un campo (ej.: mínimo de caracteres en un texto, o mínimo dígitos en un número interpretado como cadena). Si el valor ingresado es más corto que este tamaño, es inválido. - Tamaño máximo (max_size): Longitud máxima permitida. Si el valor excede este número de caracteres, se considera inválido. - Expresión regular (exp_reg): Patrón que el valor debe cumplir. Se debe compilar y probar la regex sobre el valor del campo; si no hace match, el valor es inválido. Útil para formatos como DNIs, emails, matrículas, etc. - Archivo no vacío (no_file): Aplica a campos de tipo fichero (<input type="file">). Indica que debe haberse seleccionado un archivo (es decir, no se permite que el campo esté vacío). Si no_file: true y el usuario no adjunta nada, debe considerarse error. - Tamaño máximo de archivo (max_size_file): Límite de tamaño (en bytes) para un fichero seleccionado. Esta regla puede definirse con un objeto que especifique el tamaño máximo y posiblemente se combine con otras propiedades de archivo. Codex debe verificar el tamaño del archivo seleccionado mediante la API de File antes de permitir el submit. - Tipo de archivo (type_file): Tipo MIME permitido para el fichero. Por ejemplo, image/jpg para solo permitir JPEG. Si el archivo seleccionado no coincide con los tipos permitidos, debe invalidarse. - Formato de nombre de archivo (format_name_file): Expresión regular que el nombre del fichero debe cumplir (por ejemplo, solo letras y números, o extensión específica). Se extrae el nombre del archivo seleccionado y se prueba contra esta regex. - Validación personalizada (personalized): Como se detalló antes, indica que hay una comprobación adicional implementada en código específico de la entidad. Esta no es una validación "genérica" por sí misma, sino un indicador para invocar lógica extra. Cuando personalized: true para un campo/acción, tras aplicar las validaciones generales anteriores, se debe llamar a la función particular de la entidad. El resultado de esa función determinará la validez final del campo.
-Todas las validaciones implementadas deben estar correctamente documentadas en el fichero API.html (parámetros que utilizan, qué verifican y qué retornan o cómo indican el error). Además, deben ser fácilmente extensibles en caso de que una nueva entidad requiera una regla adicional (por ejemplo, si se quisiera agregar min_value o max_value para números en el futuro, debería poder hacerse de forma consistente).
-Requisitos de Arquitectura de Archivos y Directorios
-La organización del proyecto en el sistema de archivos debe ser lógica, estructurada y siguiendo las convenciones establecidas (se puede partir de la arquitectura usada en ET2, ajustándola si es necesario). Requisitos: - Estructura de directorios clara: Separar el código en carpetas si procede, por ejemplo: - Una carpeta para archivos HTML (si hubiera más de uno, aunque en este caso son principalmente index.html y API.html que pueden estar en la raíz del directorio de entrega). - Carpeta para JavaScript (conteniendo las clases y scripts: validaciones.js, idioma.js, entidadGenerica.js, etc., a menos que se decida incrustarlos inline en HTML, lo cual no es recomendable). - Carpeta para CSS (conteniendo IU.css y potencialmente otros CSS si los hubiera, o recursos como imágenes de iconos, etc.). - Archivo de datos del equipo en la raíz junto al index (como se indicó, ET3_Datos_NombreEquipo.js va al nivel del index, no dentro de subcarpetas, para facilitar su carga directa desde HTML). - Nomenclatura y formato correctos: Usar los nombres de archivo solicitados exactamente. Por ejemplo, index.html en minúsculas, extensión correcta .html (no .htm), IU.css con mayúsculas exactas si así se indicó, etc. Las variables internas solicitadas (como def_datos_NombreEquipo) también deben respetar el nombre dado en las instrucciones, así como cualquier estructura de datos pedida. Un error en un nombre de fichero o variable solicitada se considerará una falta (penalizable). - Entrega en formato especificado: Aunque esto es más sobre la entrega final, es importante que Codex tenga en cuenta: - El código fuente completo se debe ubicar dentro de un directorio llamado CODIGO, el cual a su vez estará dentro del directorio ET3_NombreEquipo (donde "NombreEquipo" es el nombre elegido por el equipo). - No incluir en la entrega final archivos innecesarios o temporales. Solo lo requerido y el código desarrollado. - Asegurarse de que cada miembro del equipo ha sido reflejado en ET3_Datos_NombreEquipo.js con sus horas. No olvidar completar las horas dedicadas antes de entregar. - Justificación de estructura: La estructura de archivos y directorios elegida debe tener sentido. Si se opta por una organización distinta a la de ET2, debe ser igualmente comprensible (por ejemplo, agrupar por tipo de componente). Una organización deficiente o caótica tendrá una penalización importante (hasta 0.5 puntos menos).
-Presentación de Datos del Equipo y de la API
-Dos elementos adicionales deben implementarse para completar la entrega ET3, relativos a la información del equipo y la documentación del proyecto: - Lectura y muestra de datos del equipo: En index.html, se debe mostrar una sección con información de los integrantes del grupo. Esta información debe provenir del archivo ET3_Datos_NombreEquipo.js cargado: - La variable def_datos_NombreEquipo (array) contendrá para cada miembro un registro con: Entrega (ej. "ET3"), Nombre, DNI, Horas dedicadas. Codex debe leer este array y generar, por ejemplo, una tabla HTML o una lista que muestre estos datos claramente al abrir la página principal. - No escribir directamente los nombres, DNI u horas en el HTML. Siempre leerlos del JavaScript para facilitar futuras modificaciones sin tocar el HTML. - Verificar que todos los campos requeridos están presentes para cada miembro. Si falta indicar las horas o algún dato, se considerará incompleto (y la entrega podría ser puntuada con 0 en criterios de documentación). - Página API.html (Documentación técnica): Debe existir un documento HTML accesible desde la página principal (por un enlace o ícono identificable, p. ej., "API" o "?" de ayuda) que detalle la documentación de la API. Codex debe generar o ayudar a elaborar este documento con: - Un listado de todas las funciones y métodos implementados en JavaScript para este proyecto. Ejemplos: métodos de la clase genérica (como CreateForm, showTable, etc.), métodos de validación (comprobarMaxSize, validaFecha, etc.), métodos de clases de idiomas (cambiarIdioma), cualquier función utilitaria global, etc. - Para cada función, describir de manera concisa: - Qué tarea realiza (su objetivo). - Qué parámetros recibe (nombre de cada parámetro y qué representa, el tipo de dato esperado, rango de valores si aplica). - Qué valor retorna, en qué formato o tipo, y qué significa ese resultado. - La documentación debe ser suficientemente detallada para que alguien leyendo API.html entienda cómo interactuar con las funciones sin necesidad de leer todo el código. No es necesario incluir el código fuente en esta página, solo la especificación de la interfaz de cada función. - Mantener un formato legible (por ejemplo, una lista o tabla de funciones con sus descripciones, usando estilos básicos para formatear nombres de funciones y parámetros). Se pueden agrupar por clase o tipo de funcionalidad para mayor claridad. - Actualización con cambios: Si durante la implementación se agrega, quita o modifica alguna función, recordar actualizar API.html para que refleje fielmente el estado final del código. Inconsistencias entre la documentación y el código real se penalizarán como errores de información de la API.
-Restricciones y Errores a Evitar (¡No Hacer!)
-Para garantizar el éxito del proyecto ET3, Codex debe evitar incurrir en las siguientes prácticas o errores, ya que podrían invalidar la entrega o restar muchos puntos: - No codificar formularios manualmente por entidad: No se permite crear formularios fijos en HTML para cada entidad. Toda la generación de formularios y tablas debe ser dinámica. Añadir una nueva entidad no debe requerir escribir nuevo código HTML; simplemente proporcionando su estructura, el sistema debe poder construir su interfaz. (Error grave: formularios escritos “a mano” en el HTML). - No crear interfaces fijas o dependientes de una entidad: La aplicación debe ser genérica. Evitar condicionales rígidos del estilo if(entidad == "X") { ... } else if(entidad == "Y") { ... } para construir la interfaz. En lugar de eso, usar mecanismos genéricos (estructura de datos, bucles sobre atributos, etc.). Si la interfaz está construida solo para un caso y no funciona para cualquier otro sin cambiar código, es incorrecto. - No omitir validaciones requeridas: Cada campo que tenga reglas en la estructura debe ser validado conforme a ellas. Ignorar alguna validación (por simplificación o descuido) se considerará un error. Por ejemplo, si un campo tiene min_size y exp_reg, se deben chequear ambas. Asimismo, implementar la validación de submit por acción; no confiar únicamente en las validaciones de cada campo sin una comprobación final. - No usar datos estáticos para alumnos o entidades: La información de los alumnos (nombres, DNI, horas) no debe estar escrita directamente en el HTML. Debe provenir del archivo ET3_Datos_NombreEquipo.js. Igualmente, los detalles de las entidades para construir formularios deben venir de la estructura JSON de la entidad, no de variables dispersas en el código ni de texto oculto en HTML. Cargar siempre desde las estructuras definidas. - Evitar dependencias no solicitadas: No añadir bibliotecas externas ni CDNs no autorizadas para cumplir los requisitos. Todo debe implementarse con HTML, CSS y JS puro (a menos que la asignatura/profesor explícitamente permita ciertas libs). Incluir jQuery, frameworks, etc., si no se pidió, podría ser penalizado o causar fallo en la corrección. - No olvidar componentes obligatorios: Asegurarse de incluir todos los archivos y clases mencionados en esta guía. Si falta, por ejemplo, la hoja de estilos IU.css o la página API.html, la entrega se considerará incompleta. Lo mismo con la variable de datos del equipo: debe existir y estar correctamente poblada. - No modificar nombres indicados: Nunca cambiar la nomenclatura pedida (ni para archivos, ni para variables, funciones clave, etc.). Los scripts de corrección automática o la revisión manual buscarán esos nombres específicos. Un cambio arbitrario (ej. nombrar datosEquipo.js en vez de ET3_Datos_NombreEquipo.js o usar otro identificador de variable) hará que no se encuentre la info y se califique con error. - Cuidar la apariencia y usabilidad: (Aunque no es “prohibido”, es importante evitar malas prácticas de IU.) No presentar una interfaz desordenada o confusa. Evitar usar estilos inline o no consistentes; toda la presentación debe centralizarse en IU.css. Revisar que los elementos se vean correctamente (penaliza errores de apariencia). - No dejar funciones sin documentar: Cualquier función implementada debe aparecer en API.html. No asumir que algo es “obvio” y omitirlo en la documentación. La ausencia de documentación de una función contará como "error en información de la API".
+Piensa en este archivo como el **briefing para agentes de código** que trabajan sobre este proyecto ET3.  
+Aquí se describe:
+
+- Qué hace (y debe hacer) la aplicación.
+- Cómo está organizada.
+- Qué está funcionando, qué está a medias y qué falta por implementar.
+- Reglas y restricciones importantes para modificar el código.
+
+El objetivo es que cualquier agente (o desarrollador) pueda entender el contexto y avanzar de forma alineada.
+
+---
+
+## 1. Objetivo del proyecto
+
+Este proyecto implementa una **interfaz genérica de gestión de entidades (ET3)** en HTML/JS/CSS puro.
+
+Características clave esperadas:
+
+- Pantalla principal común: título, menú de entidades, banderas de idioma, tabla con datos del equipo.
+- Gestión de entidades (actualmente **persona**, en el futuro **producto**, **coche**, etc.).
+- Para cada entidad, soportar acciones:
+  - `SEARCH` – Buscar registros.
+  - `ADD` – Alta.
+  - `EDIT` – Modificación.
+  - `DELETE` – Baja (si aplica).
+  - `SHOWCURRENT` – Ver detalle de un registro.
+  - `Tests` – Pruebas de UI/datos para esa entidad.
+- La UI **no** debe estar cableada a una entidad concreta:
+  - Formularios, tablas y validaciones se generan leyendo una **estructura de entidad** en JS (p. ej. `estructura_persona`).
+  - Añadir una entidad nueva debe requerir solo **añadir su estructura (y opcionalmente clase)**, sin tocar el core.
+
+---
+
+## 2. Estado actual (alto nivel)
+
+Resumen basado en el análisis previo del código y los errores de consola que se han compartido:
+
+- La entidad **`persona`** existe como clase (`persona_Class.js`) y estructura (`estructura_persona`).
+- El **core genérico** está presente conceptualmente:
+  - `Base/EntidadAbstracta.js` (clase base, o equivalente).
+  - `Core/GeneralUIManager.js` (gestiona carga de entidad, acciones, idioma, etc.).
+  - `Core/DOMFormTableBuilder.js` (construcción dinámica de formularios y tablas).
+  - `Core/Validations_Class.js` (validaciones atómicas y por acción).
+  - Sistema de idioma: `locale/idioma.js`, `app/Textos_ES.js`, `app/Textos_EN.js`.
+  - Datos del equipo: `ET3_Datos_NombreEquipo.js`.
+  - Fichero principal: `index.html`.
+  - Fichero de estilos: `IU.css`.
+  - Tests: `Unit_Test_Class.js` (se han visto logs tipo `Unit_Test_Class.js:179` con ~35 tests).
+- El menú de entidades incluye al menos la opción **“Gestionar persona”**.
+- Hay soporte de **multiidioma** (banderas ES/EN y textos parametrizados).
+
+### 2.1. Lo que parece estar **funcionando** o encaminado
+
+- **Carga de la aplicación** desde `index.html`.
+- **Lectura dinámica** de `ET3_Datos_NombreEquipo.js` y renderizado de la tabla de datos del equipo.
+- **Cambio de idioma** ES/EN a través de banderas, afectando a textos de la interfaz.
+- **Core de validaciones genéricas** en `Validations_Class.js` (min_size, max_size, regex, ficheros, fechas, etc.).
+- **Estructura de entidad `persona`** que define atributos, HTML y reglas de validación por acción.
+- **Ejecución de tests** (al menos a nivel de logging) vía `Unit_Test_Class.js`.
+
+### 2.2. Lo que está **parcialmente implementado**
+
+- **Interfaz genérica por entidad**:
+  - Existe `GeneralUIManager.js` y `DOMFormTableBuilder.js` para construir formularios/tablas a partir de estructuras genéricas.
+  - Sin embargo, la entidad `persona` sigue usando mucho código manual en `persona_Class.js` (métodos `createForm_ADD`, `createForm_SEARCH`, etc.), en lugar de apoyarse completamente en el form-builder genérico.
+- **Validaciones personalizadas**:
+  - Hay métodos específicos en `persona_Class.js` (por ejemplo, validaciones sobre DNI/NIE).
+  - Se ejecutan en algunos puntos (p. ej., durante el submit de ADD), pero **no parecen integradas de forma homogénea en la validación campo a campo** (onblur/onchange).
+- **Tests de IU y datos**:
+  - Existen clases de test y se logran arrays de casos (35 tests según consola).
+  - No está completamente claro hasta qué punto cubren todas las acciones (ADD, EDIT, SEARCH, SHOWCURRENT) para persona y futuras entidades.
+
+### 2.3. Lo que está **incompleto o pendiente**
+
+- **Búsqueda (SEARCH) y tabla de resultados**:
+  - Falta una implementación clara y completa que:
+    - Valide el formulario SEARCH según `rules.validations.SEARCH`.
+    - Ejecute una búsqueda (aunque sea simulada con datos dummy).
+    - Construlla la tabla de resultados dinámicamente con `DOMFormTableBuilder` (cabeceras desde atributos visibles, filas por registro, iconos de acción para EDIT/SHOWCURRENT, etc.).
+- **Uso 100% genérico para PERSONA**:
+  - Ahora mismo la entidad `persona` mezcla:
+    - Estructura genérica (`estructura_persona`).
+    - Lógica manual de creación de formularios en la clase concreta.
+  - El objetivo es que la UI para persona se genere igual que para cualquier otra entidad, **solo leyendo su estructura**, sin HTML ni lógica duplicada.
+- **Soporte real a nuevas entidades (ej. `producto`)**:
+  - Está descrito el flujo para añadir una nueva entidad (estructura `estructura_producto`, clase opcional `producto`, registro en `entitiesConfig`, textos en ES/EN).
+  - Pero en el repositorio solo hay constancia de `persona`. No se han añadido aún varias entidades nuevas (mínimo tres) para probar el core genérico.
+- **Integración de validaciones personalizadas en el flujo estándar**:
+  - La estructura de atributos puede marcar `personalized: true`.
+  - Falta un punto central (probablemente en `GeneralUIManager` o en el mecanismo de validación de campo) que llame automáticamente a `specialized_test_<atributo>()` cuando esté activada esa marca, tanto en validación de campo como de formulario.
+- **API.html**:
+  - Debe documentar todas las funciones y métodos reales (UIManager, Validations_Class, DOMFormTableBuilder, clases de entidad, tests, etc.).
+  - Es probable que la documentación actual no refleje con precisión todas las funciones y parámetros implementados.
+
+---
+
+## 3. Errores conocidos (muy importantes para agentes)
+
+### 3.1. Error de consola `dni is not defined`
+
+Errores observados (resumen textual de los logs proporcionados):
+
+- En `persona_Class.js:330`:
+  - `Uncaught ReferenceError: dni is not defined`
+  - En el método `persona.personalize_dni_nie`.
+  - Llamado desde `persona.ADD_dni_validation` (onblur) y desde `persona.ADD_submit_persona` (onsubmit).
+- Se repite al escribir en el campo DNI y al intentar hacer ADD.
+- También se observa:
+  - `GeneralUIManager.js:255 Formulario válido para acción ADD {}` (es decir, las validaciones genéricas dan el OK).
+  - Acto seguido, la llamada a la validación personalizada revienta por la variable `dni` no declarada.
+
+**Conclusión para agentes**:
+
+- Hay que revisar `personalize_dni_nie` en `persona_Class.js`:
+  - Probablemente se hace algo como `dni = document.getElementById('dni').value;` sin `let/var/const`.
+  - Corregir con una variable local (`const dni = ...`) o leer el valor desde los parámetros que le llegan al método.
+- Este error impide completar correctamente la acción ADD para `persona`.
+
+---
+
+## 4. Flujo funcional esperado para la aplicación
+
+Esta sección resume **cómo debe funcionar la aplicación cuando esté completa**, según las especificaciones de la entrega ET3.
+
+### 4.1. Entrada a la aplicación
+
+1. El usuario abre `index.html`.
+2. Se muestra:
+   - Cabecera con título (p.ej. “Interfaz ET2/ET3 IU”).
+   - Banderas de idioma (ES / EN).
+   - Menú con entidades (por ahora “Gestionar persona”; en el futuro más).
+   - Tabla “Datos del equipo” construida dinámicamente a partir de `ET3_Datos_NombreEquipo.js`.
+3. La zona de gestión de entidades está inicialmente oculta hasta que se selecciona una entidad en el menú.
+
+### 4.2. Cambio de idioma
+
+- Al hacer clic en la bandera ES/EN:
+  - Se cambia el idioma activo en el gestor de idioma.
+  - Se refrescan:
+    - Textos estáticos (títulos, labels, botones…).
+    - Textos de mensajes y códigos de error.
+  - El contenido de los campos (valores introducidos por el usuario) **no debe perderse**.
+
+### 4.3. Selección de entidad (ejemplo: `persona`)
+
+1. El usuario hace clic en “Gestionar persona”.
+2. El core (`UIManager`) debe:
+   - Instanciar `persona` (clase concreta) **o** una entidad genérica con `estructura_persona`.
+   - Obtener su estructura (objeto que incluye `entity` y `attributes`).
+   - Guardar `currentEntity` y `currentStructure`.
+   - Mostrar la sección de gestión de entidad (`IU_manage_entity`).
+   - Pintar por defecto el formulario de `SEARCH` para esa entidad.
+
+### 4.4. Acción `SEARCH`
+
+- El formulario de búsqueda se genera leyendo `estructura_persona.attributes[...].html` y las reglas de búsqueda.
+- El usuario rellena criterios (DNI, nombre, etc.).
+- Validación:
+  - En cada campo (onblur/onchange) se ejecutan las validaciones de `SEARCH`.
+  - Al hacer submit:
+    - Se realiza validación global de `SEARCH`.
+    - Si hay errores: se muestran mensajes por campo + resumen general, NO se hace la búsqueda.
+    - Si todo es correcto:
+      - Se realiza la búsqueda (por ahora simulada / datos dummy).
+      - Se construye una **tabla de resultados** dinámica:
+        - Cabeceras a partir de atributos visibles.
+        - Una fila por registro.
+        - Iconos por fila para `SHOWCURRENT`, `EDIT`, etc.
+
+### 4.5. Acción `SHOWCURRENT`
+
+- Al seleccionar un registro (desde la tabla de resultados):
+  - Se cambia a modo `SHOWCURRENT`.
+  - Se muestra un formulario de solo lectura con todos los datos del registro.
+  - No se realizan validaciones (no se edita nada).
+
+### 4.6. Acción `ADD` (alta)
+
+- Al pulsar el icono de ADD:
+  - Se genera un formulario de alta a partir de la estructura (`rules.validations.ADD`).
+- Validación:
+  - Por campo (onblur): min_size, max_size, regex, ficheros, fechas, y eventualmente reglas personalizadas (`specialized_test_*`).
+  - Global (submit): recorre todos los campos y aplica todas las reglas.
+- Si todo es válido:
+  - Se muestra mensaje “Alta correcta” (y en el futuro se llamará al backend a través de `ExternalAccess_class.js`).
+- Si hay errores:
+  - Se marcan campos en rojo.
+  - Se muestra resumen de errores.
+  - Se enfoca el primer campo con error.
+
+### 4.7. Acción `EDIT`
+
+- Desde la tabla de resultados, el usuario elige editar un registro.
+- La UI:
+  - Carga los datos del registro.
+  - Genera un formulario similar al de ADD pero con reglas de `EDIT`.
+- Validaciones:
+  - Iguales que en ADD pero con las reglas específicas de EDIT.
+- Si todo es válido:
+  - Se actualiza el registro (simulado o vía backend futuro).
+
+### 4.8. Tests de IU / Datos
+
+- Desde la zona de gestión se ofrecen iconos tipo:
+  - “Tests IU”.
+  - “Tests Datos”.
+- Al pulsarlos, la app ejecuta baterías de tests:
+  - Comprueba que para cada acción se generan los campos esperados.
+  - Comprueba que las validaciones responden como se espera con datos válidos/erróneos.
+- Muestra un resumen:
+  - Tests pasados/fallidos.
+  - Explicación de qué parte de la UI no cumple el estándar, si hay errores.
+
+---
+
+## 5. Arquitectura esperada (ficheros y responsabilidades)
+
+> ⚠ Nota: esta sección mezcla lo que **ya existe** o se ha citado explícitamente, con lo que **se espera** que exista según los requisitos. No se inventan nombres nuevos; solo se recogen los descritos en el enunciado y en los errores reportados.
+
+### 5.1. Ficheros de alto nivel
+
+- `index.html`
+  - Página principal de la aplicación.
+  - Contiene:
+    - Zona de cabecera, menú de entidades, banderas de idioma, contenedor para gestión de entidad y tabla de equipo.
+    - Referencias a todos los JS (core, entidades, validaciones, idioma, datos de equipo, tests…).
+- `IU.css`
+  - Estilos para la interfaz: formularios, tablas, menús, mensajes de error, etc.
+- `ET3_Datos_NombreEquipo.js`
+  - Array `def_datos_NombreEquipo` con:
+    - Entrega (p.ej. "ET3").
+    - Nombre.
+    - DNI.
+    - Horas dedicadas.
+
+### 5.2. Core de lógica y UI
+
+- `Base/EntidadAbstracta.js` (o equivalente)
+  - Clase base de las entidades.
+  - Métodos comunes para ADD/EDIT/SEARCH/SHOWCURRENT, gestión de resultados, etc.
+- `Core/GeneralUIManager.js`
+  - Clase `UIManager` (o similar).
+  - Responsabilidades:
+    - Cargar una entidad al seleccionar una opción desde el menú.
+    - Gestionar la acción actual (SEARCH, ADD, EDIT, SHOWCURRENT).
+    - Coordinar la construcción de formularios/tablas (llamando a `DOMFormTableBuilder`).
+    - Conectarse con sistema de validaciones.
+    - Coordinar cambio de idioma.
+- `Core/DOMFormTableBuilder.js`
+  - Recibe estructura de entidad + acción.
+  - Construye:
+    - Formularios (inputs, selects, textareas, file, radio, checkbox…) según `attributes[...].html`.
+    - Tablas de resultados a partir de colecciones de datos.
+- `Core/Validations_Class.js`
+  - Implementa funciones atómicas de validación:
+    - `min_size`, `max_size`, `exp_reg`, reglas de ficheros (tamaño, tipo, nombre), fechas, etc.
+  - Ofrece una capa superior para:
+    - Validar un valor contra el conjunto de reglas `rules.validations[ACCION]`.
+    - Devolver códigos de error que luego se traducen vía idioma.
+
+### 5.3. Idiomas y textos
+
+- `locale/idioma.js`
+  - Control central del idioma activo.
+- `app/Textos_ES.js`, `app/Textos_EN.js`
+  - Definen diccionarios de claves → textos en ES/EN.
+  - Incluyen:
+    - Textos de menú.
+    - Labels de campos.
+    - Títulos de secciones.
+    - Mensajes de error (por código).
+
+### 5.4. Entidades y estructuras
+
+- `app/persona_Class.js`
+  - Clase concreta `persona` que:
+    - Obtiene la estructura `estructura_persona`.
+    - Implementa validaciones personalizadas (ej. DNI/NIE).
+    - Actualmente genera parte de los formularios de forma manual.
+- `estructura_persona` (objeto)
+  - Define:
+    - `entity: "persona"`.
+    - `attributes`: cada atributo con:
+      - Bloque `html` (tipo de campo, tamaño, opciones, etc.).
+      - Bloque `rules.validations` por acción (ADD, EDIT, SEARCH, etc.), con reglas como `min_size`, `max_size`, `exp_reg`, etc.
+- `app/entitiesConfig.js` (mencionado en el diseño)
+  - Configuración de entidades disponibles.
+  - Ejemplo:
+    - `persona` (actual).
+    - En el futuro: `producto`, `coche`, etc.
+
+### 5.5. Acceso externo y tests
+
+- `ExternalAccess_class.js` (previsto)
+  - Encapsularía las llamadas a backend real (futuro).
+- `Unit_Test_Class.js`
+  - Define colecciones de tests (se han visto logs de ~35 tests).
+  - Debe comprobar que:
+    - La UI se construye correctamente según estructuras.
+    - Las validaciones responden como se espera.
+
+---
+
+## 6. Reglas y restricciones importantes para agentes
+
+Estas reglas vienen del enunciado de la entrega ET3 y deben respetarse siempre:
+
+1. **No codificar formularios manualmente por entidad**  
+   - El HTML de formularios y tablas se debe **generar dinámicamente** a partir de las estructuras de entidad.
+   - Añadir una entidad no debe requerir añadir formularios fijos en HTML.
+
+2. **No acoplar la UI a una sola entidad**  
+   - Evitar cosas del tipo `if (entidad === "persona") { ... }` para generar UI.
+   - En su lugar, usar la estructura genérica y bucles sobre los atributos.
+
+3. **Validar todo lo que tenga reglas**  
+   - Si un campo tiene `min_size` y `exp_reg`, hay que comprobar ambas reglas.
+   - Debe existir validación por campo **y** validación global por acción.
+
+4. **Multiidioma obligatorio (ES/EN)**  
+   - No hardcodear textos visibles ni mensajes de error.
+   - Todo debe pasar por el sistema de idioma (claves y diccionarios).
+
+5. **Datos del equipo siempre dinámicos**  
+   - No escribir nombres, DNI ni horas en HTML.
+   - Siempre leer desde `ET3_Datos_NombreEquipo.js`.
+
+6. **No usar librerías externas no autorizadas**  
+   - No añadir jQuery, frameworks ni CDNs extra a menos que la asignatura lo permita explícitamente.
+   - Mantener HTML/CSS/JS puro.
+
+7. **Respetar nombres de ficheros y variables indicados**  
+   - `index.html`, `IU.css`, `ET3_Datos_NombreEquipo.js`, etc.
+   - Nombres de estructuras y variables pedidas en el enunciado.
+
+---
+
+## 7. Backlog de trabajo recomendado para agentes
+
+Lista de tareas que los agentes pueden abordar, en orden lógico:
+
+1. **Corregir el bug de `dni`**
+   - Revisar `persona_Class.js`, función `personalize_dni_nie`.
+   - Declarar la variable `dni` correctamente (o usar el valor pasado como parámetro).
+   - Asegurarse de que no deja errores de consola al hacer ADD.
+
+2. **Centralizar las validaciones personalizadas**
+   - Crear un mecanismo (probablemente en `GeneralUIManager` o en el flujo de validación de campo) que:
+     - Cuando un atributo tenga `personalized: true` en `rules.validations[ACCION]`:
+       - Llame a `specialized_test_<atributo>(accion, valor)` en la entidad correspondiente.
+     - Esto debe ocurrir tanto en la validación por campo como en la global.
+
+3. **Implementar SEARCH completo con tabla de resultados**
+   - Validar el formulario de búsqueda según la estructura.
+   - Simular una búsqueda (datos dummy o capa de datos en memoria).
+   - Usar `DOMFormTableBuilder` para pintar una tabla con resultados:
+     - Cabeceras desde los atributos visibles.
+     - Filas con iconos de acción (ver, editar).
+
+4. **Migrar PERSONA al sistema genérico**
+   - Reducir o eliminar la creación manual de formularios en `persona_Class.js`.
+   - Hacer que el flujo para persona use los generadores genéricos (`DOMFormTableBuilder` + `Validations_Class` + estructuras) como cualquier entidad nueva.
+
+5. **Añadir al menos 2–3 entidades nuevas**
+   - Crear nuevas estructuras (p. ej. `estructura_producto`, `estructura_coche`, etc.).
+   - Registrarlas en `entitiesConfig`.
+   - Añadir textos de menú y labels en ES/EN.
+   - Probar que funcionan **sin modificar el core**.
+
+6. **Completar y sincronizar el multiidioma**
+   - Verificar que todas las claves usadas en la UI existen en `Textos_ES` y `Textos_EN`.
+   - Incluir mensajes de error traducidos (o con sufijo `-ES` / `-EN` si se usan códigos).
+
+7. **Actualizar API.html**
+   - Documentar:
+     - Métodos clave de `UIManager` (carga de entidad, cambio de acción, etc.).
+     - Funciones de `Validations_Class` (parámetros, comportamiento).
+     - Funciones de `DOMFormTableBuilder` (cómo genera formularios y tablas).
+     - Métodos de las entidades concretas (especialmente validaciones personalizadas).
+   - Asegurar que API.html refleje el estado real del código.
+
+---
+
+## 8. Cómo deben trabajar los agentes sobre este repo
+
+- **Leer primero este AGENTS.md** y, si existe, `README.md` y `API.html`.
+- **Mantener el diseño genérico**:
+  - Si se añade algo específico de una entidad, intentar que sea por configuración (estructura) y no por hardcode.
+- **Preferir refactorización progresiva**:
+  - No romper de golpe lo que ya está; migrar persona al sistema genérico paso a paso.
+- **Dejar comentarios claros**:
+  - Especialmente en puntos de validación, construcciones dinámicas y tests.
+- **No introducir dependencias externas**:
+  - Cualquier nueva funcionalidad debe ser implementada con JS nativo, a menos que las instrucciones de la asignatura indiquen lo contrario.
+
+---
+
+Fin del `AGENTS.md` para ET3.  
+Este archivo debe mantenerse actualizado cada vez que se corrijan bugs importantes o se completen hitos del backlog.
