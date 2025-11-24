@@ -43,8 +43,7 @@ class persona extends EntidadAbstracta{
         }
 
         specialized_test_dni(action, valor) {
-                const dniRegex = /^[0-9XYZ][0-9]{7}[A-Z]$/;
-                return dniRegex.test(valor || '');
+                return this.personalize_dni_nie(valor, { showDomErrors: false });
         }
 
 	/**
@@ -325,28 +324,36 @@ class persona extends EntidadAbstracta{
 	 * @return {bool} true is regular expression is satified false otherwise  
 	 * */ 
 
-        personalize_dni_nie(){
+        personalize_dni_nie(valor, { showDomErrors = true } = {}){
 
-                const dni = document.getElementById('dni').value;
-                if (this.personalize_dni_format() == true){
+                const dni = valor ?? document.getElementById('dni')?.value ?? '';
+                const dniFormatResult = this.personalize_dni_format(dni, { showDomErrors });
+                if (dniFormatResult === true){
                         if (!(this.personalize_validate_dni(dni))){
+                                if (showDomErrors && this.dom?.mostrar_error_campo){
+                                        this.dom.mostrar_error_campo('dni','dni_validate_KO');
+                                }
                                 return "dni_validate_KO";
-			}
-		}
-		else{
-			if (this.personalize_nie_format() === true){
-					if (!(this.personalize_validate_nie(dni))){
-						return "nie_validate_KO";
-					}
-			}
-			else{
-				return "dni_nie_format_KO";
-			}
-		}
+                        }
+                }
+                else{
+                        const nieFormatResult = this.personalize_nie_format(dni, { showDomErrors });
+                        if (nieFormatResult === true){
+                                        if (!(this.personalize_validate_nie(dni))){
+                                                if (showDomErrors && this.dom?.mostrar_error_campo){
+                                                        this.dom.mostrar_error_campo('dni','nie_validate_KO');
+                                                }
+                                                return "nie_validate_KO";
+                                        }
+                        }
+                        else{
+                                return "dni_nie_format_KO";
+                        }
+                }
 
-		return true;
+                return true;
 
-	}
+        }
 	/**
 	 * get dni as parameter, split letter and numbers, calculate
 	 * %23 from number to obtain corresponding letter and compares with letter in dni value
@@ -354,31 +361,36 @@ class persona extends EntidadAbstracta{
 	 * @param dni value
 	 * @returns true if dni is valid false otherwise
 	 */
-	personalize_dni_format(){
-		
-		if (!(this.validations.format('dni', '[0-9]{8}[A-Z]'))){
-			this.dom.mostrar_error_campo('dni','dni_format_KO');
-			return "dni_format_KO";
-		}
-		return true;
+        personalize_dni_format(valor, { showDomErrors = true } = {}){
 
-	}
+                const dniValue = valor ?? document.getElementById('dni')?.value ?? '';
+                if (!(/^[0-9]{8}[A-Z]$/.test(dniValue))){
+                        if (showDomErrors && this.dom?.mostrar_error_campo){
+                                this.dom.mostrar_error_campo('dni','dni_format_KO');
+                        }
+                        return "dni_format_KO";
+                }
+                return true;
 
-	personalize_nie_format(){
-		if (!(this.validations.format('dni', '[XYZ][0-9]{7}[A-Z]'))){
-			this.dom.mostrar_error_campo('dni','nie_format_KO');
-			return "nie_format_KO";
-		}
-		return true;
-	}
-	personalize_validate_dni(dni){
-		
-		//var dni = document.getElementById('dni').value;
-		var dni_letters = "TRWAGMYFPDXBNJZSQVHLCKE";
-    	var letter = dni_letters.charAt( parseInt( dni, 10 ) % 23 );
-		
-    	return letter == dni.charAt(8);
-	}
+        }
+
+        personalize_nie_format(valor, { showDomErrors = true } = {}){
+                const nieValue = valor ?? document.getElementById('dni')?.value ?? '';
+                if (!(/^[XYZ][0-9]{7}[A-Z]$/.test(nieValue))){
+                        if (showDomErrors && this.dom?.mostrar_error_campo){
+                                this.dom.mostrar_error_campo('dni','nie_format_KO');
+                        }
+                        return "nie_format_KO";
+                }
+                return true;
+        }
+        personalize_validate_dni(dni){
+
+                var dni_letters = "TRWAGMYFPDXBNJZSQVHLCKE";
+        var letter = dni_letters.charAt( parseInt( dni, 10 ) % 23 );
+
+        return letter == dni.charAt(8);
+        }
 
 	/**
 	 * get nie as parameter, split firts letter, calculate
