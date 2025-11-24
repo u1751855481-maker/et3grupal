@@ -131,7 +131,7 @@ class Validations{
          * @param {Object} rulesForAction Objeto con las reglas para la acción (min_size, max_size, exp_reg, etc.).
          * @returns {{ isValid: boolean, errorCodes: string[] }}
          */
-        validateValueAgainstRules(value, rulesForAction) {
+        validateValueAgainstRules(value, rulesForAction, { attributeName = '', action = '', entityInstance = null } = {}) {
                 const errorCodes = [];
 
                 if (rulesForAction?.min_size !== undefined) {
@@ -187,6 +187,20 @@ class Validations{
                                 const nameRegex = new RegExp(formatRule);
                                 if (!nameRegex.test(value.name)) {
                                         errorCodes.push('ERR_FORMAT_NAME_FILE');
+                                }
+                        }
+                }
+
+                if (rulesForAction?.personalized && attributeName && entityInstance) {
+                        const methodName = `specialized_test_${attributeName}`;
+                        const specializedFn = entityInstance[methodName];
+                        if (typeof specializedFn === 'function') {
+                                const specializedResult = specializedFn.call(entityInstance, action, value);
+
+                                if (specializedResult === false) {
+                                        errorCodes.push('ERR_PERSONALIZED');
+                                } else if (typeof specializedResult === 'string' && specializedResult.trim() !== '') {
+                                        errorCodes.push(specializedResult);
                                 }
                         }
                 }

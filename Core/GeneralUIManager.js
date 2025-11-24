@@ -319,7 +319,7 @@ class UIManager {
             if (actionRules.personalized && this.currentEntity?.hasSpecializedTest?.(attributeName)) {
                 const value = field?.value;
                 const specializedResult = this.currentEntity.runSpecializedTest(attributeName, action, value);
-                if (!specializedResult) {
+                if (specializedResult !== true) {
                     isValid = false;
                 }
             }
@@ -333,13 +333,13 @@ class UIManager {
         if (!rulesForAction || !this.validationManager) return { isValid: true, errorCodes: [] };
 
         const value = this.extractFieldValue(formElement, attributeName);
-        const validationResult = this.validationManager.validateValueAgainstRules(value, rulesForAction);
+        const validationResult = this.validationManager.validateValueAgainstRules(value, rulesForAction, {
+            attributeName,
+            action,
+            entityInstance: this.currentEntity,
+        });
 
         this.showValidationResult(formElement, attributeName, validationResult.errorCodes);
-
-        if (rulesForAction.personalized) {
-            // TODO: invocar specialized_test_<atributo>(accion, valor) en la entidad concreta cuando esté disponible.
-        }
 
         return validationResult;
     }
