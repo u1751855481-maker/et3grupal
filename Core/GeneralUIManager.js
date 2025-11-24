@@ -296,32 +296,17 @@ class UIManager {
             if (!actionRules) return;
 
             const field = form.elements[attributeName];
-            const fieldId = field?.id || attributeName;
 
-            Object.entries(actionRules).forEach(([ruleName, ruleValue]) => {
-                if (ruleName === 'personalized') return;
-                const validator = this.validationManager[ruleName];
-                if (typeof validator !== 'function') return;
-
-                const normalizedValue = Array.isArray(ruleValue)
-                    ? ruleValue.map((rule) => rule[ruleName] ?? rule)
-                    : ruleValue;
-
-                const values = Array.isArray(normalizedValue) ? normalizedValue : [normalizedValue];
-                values.forEach((singleRule) => {
-                    const result = validator.call(this.validationManager, fieldId, singleRule);
-                    if (result === false) {
-                        isValid = false;
-                    }
-                });
+            const value = this.extractFieldValue(field || { value: '' }, attributeName);
+            const validationResult = this.validationManager.validateValueAgainstRules(value, actionRules, {
+                attributeName,
+                action,
+                entityInstance: this.currentEntity,
             });
 
-            if (actionRules.personalized && this.currentEntity?.hasSpecializedTest?.(attributeName)) {
-                const value = field?.value;
-                const specializedResult = this.currentEntity.runSpecializedTest(attributeName, action, value);
-                if (!specializedResult) {
-                    isValid = false;
-                }
+            this.showValidationResult(field || form, attributeName, validationResult.errorCodes);
+            if (!validationResult.isValid) {
+                isValid = false;
             }
         });
 
@@ -333,13 +318,13 @@ class UIManager {
         if (!rulesForAction || !this.validationManager) return { isValid: true, errorCodes: [] };
 
         const value = this.extractFieldValue(formElement, attributeName);
-        const validationResult = this.validationManager.validateValueAgainstRules(value, rulesForAction);
+        const validationResult = this.validationManager.validateValueAgainstRules(value, rulesForAction, {
+            attributeName,
+            action,
+            entityInstance: this.currentEntity,
+        });
 
         this.showValidationResult(formElement, attributeName, validationResult.errorCodes);
-
-        if (rulesForAction.personalized) {
-            // TODO: invocar specialized_test_<atributo>(accion, valor) en la entidad concreta cuando esté disponible.
-        }
 
         return validationResult;
     }

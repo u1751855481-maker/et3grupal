@@ -129,9 +129,10 @@ class Validations{
          * definido en la estructura de la entidad para una acción concreta (ADD, EDIT, SEARCH).
          * @param {any} value Valor a validar.
          * @param {Object} rulesForAction Objeto con las reglas para la acción (min_size, max_size, exp_reg, etc.).
+         * @param {{ attributeName?: string, action?: string, entityInstance?: any }} context Información opcional sobre el atributo y la entidad.
          * @returns {{ isValid: boolean, errorCodes: string[] }}
          */
-        validateValueAgainstRules(value, rulesForAction) {
+        validateValueAgainstRules(value, rulesForAction, { attributeName = '', action = '', entityInstance = null } = {}) {
                 const errorCodes = [];
 
                 if (rulesForAction?.min_size !== undefined) {
@@ -191,8 +192,51 @@ class Validations{
                         }
                 }
 
+                if (rulesForAction?.personalized && attributeName && entityInstance) {
+                        const personalizedResult = this.applyPersonalizedValidation(attributeName, action, value, entityInstance);
+                        if (!personalizedResult.isValid) {
+                                errorCodes.push(...personalizedResult.errorCodes);
+                        }
+                }
+
                 const isValid = errorCodes.length === 0;
                 return { isValid, errorCodes };
+        }
+
+        applyPersonalizedValidation(attributeName, action, value, entityInstance) {
+                const methodName = `specialized_test_${attributeName}`;
+                const defaultError = `${attributeName}_personalized_validation_KO`;
+
+                if (!entityInstance || typeof entityInstance[methodName] !== 'function') {
+                        return { isValid: true, errorCodes: [] };
+                }
+
+                const rawResult = entityInstance[methodName](action, value);
+                if (rawResult === true) {
+                        return { isValid: true, errorCodes: [] };
+                }
+
+                if (rawResult === false) {
+                        return { isValid: false, errorCodes: [defaultError] };
+                }
+
+                if (typeof rawResult === 'string') {
+                        return { isValid: false, errorCodes: [rawResult] };
+                }
+
+                if (rawResult && typeof rawResult === 'object') {
+                        const isValid = rawResult.isValid !== false;
+                        const errorCodes = Array.isArray(rawResult.errorCodes)
+                                ? rawResult.errorCodes
+                                : rawResult.errorCode
+                                        ? [rawResult.errorCode]
+                                        : isValid
+                                                ? []
+                                                : [defaultError];
+                        return { isValid, errorCodes };
+                }
+
+                return { isValid: false, errorCodes: [defaultError] };
         }
 
         // validateFieldFromStructure(entityStructure, attributeName, action, formElement) {

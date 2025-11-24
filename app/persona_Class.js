@@ -43,8 +43,11 @@ class persona extends EntidadAbstracta{
         }
 
         specialized_test_dni(action, valor) {
-                const dniRegex = /^[0-9XYZ][0-9]{7}[A-Z]$/;
-                return dniRegex.test(valor || '');
+                const evaluation = this.evaluateDniNieValue((valor || '').toUpperCase());
+                if (evaluation === true) {
+                        return { isValid: true, errorCodes: [] };
+                }
+                return { isValid: false, errorCodes: [evaluation] };
         }
 
 	/**
@@ -325,84 +328,79 @@ class persona extends EntidadAbstracta{
 	 * @return {bool} true is regular expression is satified false otherwise  
 	 * */ 
 
-	personalize_dni_nie(){
-		
-		dni = document.getElementById('dni').value;
-		if (this.personalize_dni_format() == true){
-			if (!(this.personalize_validate_dni(dni))){
-				return "dni_validate_KO";
-			}
-		}
-		else{
-			if (this.personalize_nie_format() === true){
-					if (!(this.personalize_validate_nie(dni))){
-						return "nie_validate_KO";
-					}
-			}
-			else{
-				return "dni_nie_format_KO";
-			}
-		}
+        personalize_dni_nie(valor = null){
 
-		return true;
+                const dni = (valor ?? document.getElementById('dni')?.value ?? '').toUpperCase();
+                const evaluation = this.evaluateDniNieValue(dni);
 
-	}
-	/**
-	 * get dni as parameter, split letter and numbers, calculate
-	 * %23 from number to obtain corresponding letter and compares with letter in dni value
-	 * 
-	 * @param dni value
-	 * @returns true if dni is valid false otherwise
-	 */
-	personalize_dni_format(){
-		
-		if (!(this.validations.format('dni', '[0-9]{8}[A-Z]'))){
-			this.dom.mostrar_error_campo('dni','dni_format_KO');
-			return "dni_format_KO";
-		}
-		return true;
+                if (evaluation === true){
+                        if (this.dom?.mostrar_exito_campo){
+                                this.dom.mostrar_exito_campo('dni');
+                        }
+                        return true;
+                }
 
-	}
+                if (this.dom?.mostrar_error_campo){
+                        this.dom.mostrar_error_campo('dni', evaluation);
+                }
+                return evaluation;
 
-	personalize_nie_format(){
-		if (!(this.validations.format('dni', '[XYZ][0-9]{7}[A-Z]'))){
-			this.dom.mostrar_error_campo('dni','nie_format_KO');
-			return "nie_format_KO";
-		}
-		return true;
-	}
-	personalize_validate_dni(dni){
-		
-		//var dni = document.getElementById('dni').value;
-		var dni_letters = "TRWAGMYFPDXBNJZSQVHLCKE";
-    	var letter = dni_letters.charAt( parseInt( dni, 10 ) % 23 );
-		
-    	return letter == dni.charAt(8);
-	}
+        }
+        /**
+         * get dni as parameter, split letter and numbers, calculate
+         * %23 from number to obtain corresponding letter and compares with letter in dni value
+         *
+         * @param dni value
+         * @returns true if dni is valid false otherwise
+         */
+        personalize_validate_dni(dni){
 
-	/**
-	 * get nie as parameter, split firts letter, calculate
-	 * the number from this letter and create dni for validating in 
-	 * personalizate method
-	 * 
-	 * @param nie value
-	 * @returns true if nie is valid false otherwise
-	 */
-	personalize_validate_nie(nie){
-		
-		//var nie = document.getElementById('dni').value;
-		// Change the initial letter for the corresponding number and validate as DNI
-		var nie_prefix = nie.charAt( 0 );
+                var dni_letters = "TRWAGMYFPDXBNJZSQVHLCKE";
+        var letter = dni_letters.charAt( parseInt( dni, 10 ) % 23 );
 
-		switch (nie_prefix) {
-		case 'X': nie_prefix = 0; break;
-		case 'Y': nie_prefix = 1; break;
-		case 'Z': nie_prefix = 2; break;
-		}
+        return letter == dni.charAt(8);
+        }
 
-		return this.personalize_validate_dni( nie_prefix + nie.substr(1) );
-	
-	}
+        /**
+         * get nie as parameter, split firts letter, calculate
+         * the number from this letter and create dni for validating in
+         * personalizate method
+         *
+         * @param nie value
+         * @returns true if nie is valid false otherwise
+         */
+        personalize_validate_nie(nie){
+
+                // Change the initial letter for the corresponding number and validate as DNI
+                var nie_prefix = nie.charAt( 0 );
+
+                switch (nie_prefix) {
+                case 'X': nie_prefix = 0; break;
+                case 'Y': nie_prefix = 1; break;
+                case 'Z': nie_prefix = 2; break;
+                }
+
+                return this.personalize_validate_dni( nie_prefix + nie.substr(1) );
+
+        }
+
+        evaluateDniNieValue(dni){
+
+                const normalizedValue = (dni || '').toUpperCase();
+                const dniRegex = /^[0-9]{8}[A-Z]$/;
+                const nieRegex = /^[XYZ][0-9]{7}[A-Z]$/;
+
+                if (dniRegex.test(normalizedValue)){
+                        return this.personalize_validate_dni(normalizedValue) ? true : "dni_validate_KO";
+                }
+
+                if (nieRegex.test(normalizedValue)){
+                        return this.personalize_validate_nie(normalizedValue) ? true : "nie_validate_KO";
+                }
+
+                return "dni_nie_format_KO";
+
+        }
 
 	createForm_EDIT(fila){
 
