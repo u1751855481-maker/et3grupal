@@ -325,12 +325,12 @@ class persona extends EntidadAbstracta{
 	 * @return {bool} true is regular expression is satified false otherwise  
 	 * */ 
 
-	personalize_dni_nie(){
-		
-		dni = document.getElementById('dni').value;
-		if (this.personalize_dni_format() == true){
-			if (!(this.personalize_validate_dni(dni))){
-				return "dni_validate_KO";
+        personalize_dni_nie(){
+
+                const dni = document.getElementById('dni').value;
+                if (this.personalize_dni_format() == true){
+                        if (!(this.personalize_validate_dni(dni))){
+                                return "dni_validate_KO";
 			}
 		}
 		else{
