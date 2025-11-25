@@ -49,3 +49,8 @@ const estructura_producto = {
         },
     },
 };
+
+// Registrar en el ámbito global para que el UIManager pueda hidratarla dinámicamente.
+if (typeof window !== 'undefined') {
+    window.estructura_producto = estructura_producto;
+}
