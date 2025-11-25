@@ -18,9 +18,10 @@ var textos_EN = {
     // textos menu
         'text_menu_persona': 'Person Management',
         'text_menu_gestionar_persona': 'Manage person',
+        'text_menu_producto': 'Manage product',
 
     // textos entidad persona
-	'text_titulo_page_persona' : 'Personal Data Management',
+        'text_titulo_page_persona' : 'Personal Data Management',
     'text_contenido_titulo_form_persona_ADD': 'Personal Data ADD Form',
 	'text_contenido_titulo_form_persona_EDIT': 'Personal Data EDIT Form',
 	'text_contenido_titulo_form_persona_DELETE': 'Personal Data DELETE Form',
@@ -114,6 +115,24 @@ var textos_EN = {
 	'RECORDSET_VACIO' : 'There are not results for your search',
 	'dni_es_nulo_KO':'DNI can not be empty',
 
-	'admin_no_se_puede_modificar_KO':'El admin no se puede modificar',
+        'admin_no_se_puede_modificar_KO':'El admin no se puede modificar',
+
+        // textos entidad producto
+        'text_titulo_page_producto' : 'Product Management',
+        'text_contenido_titulo_form_producto_ADD': 'Product ADD Form',
+        'text_contenido_titulo_form_producto_EDIT': 'Product EDIT Form',
+        'text_contenido_titulo_form_producto_DELETE': 'Product DELETE Form',
+        'text_contenido_titulo_form_producto_SHOWCURRENT': 'Product SHOWCURRENT Form',
+        'text_contenido_titulo_form_producto_SEARCH': 'Product SEARCH Form',
+
+        // atributos producto
+        'codigo_producto': 'Code',
+        'nombre_producto': 'Name',
+        'descripcion_producto': 'Description',
+
+        // labels producto
+        'label_codigo_producto': 'Product code',
+        'label_nombre_producto': 'Product name',
+        'label_descripcion_producto': 'Product description',
 
 }

@@ -83,13 +83,8 @@ class UIManager {
      */
     loadEntity(entityName) {
         if (!entityName) return;
-        if (entityName === 'persona' && typeof persona === 'function') {
-            this.currentEntity = new persona();
-            this.currentStructure = this.currentEntity.getStructure?.() || window['estructura_persona'] || {};
-        } else {
-            this.currentEntity = this.instantiateEntity(entityName);
-            this.currentStructure = this.resolveStructure(entityName, this.currentEntity);
-        }
+        this.currentEntity = this.instantiateEntity(entityName);
+        this.currentStructure = this.resolveStructure(entityName, this.currentEntity);
 
         window.entidad = this.currentEntity; // compatibilidad con botones existentes
 
