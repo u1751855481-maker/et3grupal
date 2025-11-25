@@ -2,6 +2,7 @@
 // Permite añadir nuevas entidades sin tocar el HTML principal.
 const entitiesConfig = [
     'persona',
+    'producto',
 ];
 
 // Exponemos también en window para compatibilidad con scripts inline.

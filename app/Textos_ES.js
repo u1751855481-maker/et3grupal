@@ -18,9 +18,10 @@ var textos_ES = {
     // textos menu
         'text_menu_persona': 'Gestionar persona',
         'text_menu_gestionar_persona': 'Gestionar persona',
+        'text_menu_producto': 'Gestionar producto',
 
     // textos entidad persona
-	'text_titulo_page_persona' : 'Gestión de Datos Personales',
+        'text_titulo_page_persona' : 'Gestión de Datos Personales',
     'text_contenido_titulo_form_persona_ADD': 'Formulario Alta Datos Personales',
 	'text_contenido_titulo_form_persona_EDIT': 'Formulario Modificación Datos Personales',
 	'text_contenido_titulo_form_persona_DELETE': 'Formulario Eliminación Datos Personales',
@@ -113,6 +114,24 @@ var textos_ES = {
 	'RECORDSET_VACIO' : 'No hay coincidencias para la búsqueda',
 	'dni_es_nulo_KO':'El dni no puede ser vacio',
 
-	'admin_no_se_puede_modificar_KO':'El admin no se puede modificar',
+        'admin_no_se_puede_modificar_KO':'El admin no se puede modificar',
+
+        // textos entidad producto
+        'text_titulo_page_producto' : 'Gestión de Productos',
+        'text_contenido_titulo_form_producto_ADD': 'Formulario Alta Producto',
+        'text_contenido_titulo_form_producto_EDIT': 'Formulario Modificación Producto',
+        'text_contenido_titulo_form_producto_DELETE': 'Formulario Eliminación Producto',
+        'text_contenido_titulo_form_producto_SHOWCURRENT': 'Formulario Detalle Producto',
+        'text_contenido_titulo_form_producto_SEARCH': 'Formulario Búsqueda Producto',
+
+        // atributos producto
+        'codigo_producto': 'Código',
+        'nombre_producto': 'Nombre',
+        'descripcion_producto': 'Descripción',
+
+        // labels producto
+        'label_codigo_producto': 'Código de producto',
+        'label_nombre_producto': 'Nombre del producto',
+        'label_descripcion_producto': 'Descripción del producto',
 
 }
