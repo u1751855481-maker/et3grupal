@@ -174,7 +174,6 @@ class persona extends EntidadAbstracta{
                 if (action === 'DELETE') {
                         const attributeNames = Object.keys(structure.attributes || {});
                         options.readonlyAttributes = attributeNames;
-                        options.disabledAttributes = attributeNames;
                 }
 
                 if (action === 'SHOWCURRENT') {
