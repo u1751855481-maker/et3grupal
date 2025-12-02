@@ -61,9 +61,9 @@ class dom extends dom_table {
                 setLang();
 
                 if (errorElement) {
-                        const translatedMessage = langManager?.formatErrorMessage?.(codigoerror, lang)
-                                || this.buildErrorText(codigoerror, lang);
-                        errorElement.textContent = translatedMessage;
+                        const translatedMessage = langManager?.getText?.(codigoerror) || codigoerror;
+                        const fullMessage = `${codigoerror}-${lang}: ${translatedMessage}`;
+                        errorElement.textContent = fullMessage;
                 }
         }
 
