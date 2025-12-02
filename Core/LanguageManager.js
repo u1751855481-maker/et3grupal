@@ -84,9 +84,10 @@ class LanguageManager {
         return this.translations[lang] || this.translations[this.defaultLanguage] || {};
     }
 
-    getText(key) {
+    getText(key, langCode = null) {
         if (!key) return '';
-        const activeTranslations = this.getTranslations();
+
+        const activeTranslations = this.getTranslations(langCode || undefined);
         if (Object.prototype.hasOwnProperty.call(activeTranslations, key)) {
             return activeTranslations[key];
         }
