@@ -350,7 +350,7 @@ footer {
     margin-top: 6%;
     margin-left: 5%;
     border: 1px solid var(--dark-color);
-    overflow: hidden;
+    overflow: auto;
     scroll-behavior: smooth;
     display: flex;
     flex-direction: column;
