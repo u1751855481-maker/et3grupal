@@ -119,4 +119,14 @@ class LanguageManager {
 
         return `${errorCode}-${lang}`;
     }
+
+    formatErrorMessage(errorCode, langCode = null) {
+        if (!errorCode) return '';
+
+        const lang = langCode || this.getActiveLanguage();
+        const translation = this.getText(errorCode);
+        const resolvedMessage = translation && translation !== errorCode ? translation : errorCode;
+
+        return `${errorCode}-${lang}: ${resolvedMessage}`;
+    }
 }

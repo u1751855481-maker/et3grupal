@@ -34,23 +34,74 @@ class dom extends dom_table {
 		this.hide_element(id);
 	}
 
-	mostrar_error_campo(id, codigoerror){
-                document.getElementById('span_error_'+id).style.display = 'inline';
-                document.getElementById('error_'+id).className = codigoerror;
-                document.getElementById(id).style.borderBlockColor = 'red';
+        mostrar_error_campo(id, codigoerror){
+                const langManager = window?.generalUIManager?.languageManager;
+                const lang = this.getActiveLanguageCode(langManager);
+                const errorSpan = document.getElementById('span_error_'+id);
+                const errorElement = document.getElementById('error_'+id);
+                const fieldElement = document.getElementById(id);
+
+                if (errorSpan) {
+                        errorSpan.style.display = 'inline';
+                }
+
+                if (errorElement) {
+                        errorElement.className = codigoerror;
+                }
+
+                if (fieldElement) {
+                        fieldElement.style.borderBlockColor = 'red';
+                }
+
                 const submitButton = document.getElementById('submit_button');
                 if (submitButton) {
                         submitButton.focus();
                 }
+
                 setLang();
+
+                if (errorElement) {
+                        const translatedMessage = langManager?.formatErrorMessage?.(codigoerror, lang)
+                                || this.buildErrorText(codigoerror, lang);
+                        errorElement.textContent = translatedMessage;
+                }
         }
 
 	mostrar_exito_campo(id){
 		document.getElementById('span_error_'+id).style.display = 'none';
-		document.getElementById('error_'+id).className = '';
-		document.getElementById(id).style.borderBlockColor = 'green';
-		setLang();
-	}
+                document.getElementById('error_'+id).className = '';
+                document.getElementById(id).style.borderBlockColor = 'green';
+                setLang();
+        }
+
+        getActiveLanguageCode(langManager){
+                if (langManager?.getActiveLanguage) {
+                        return langManager.getActiveLanguage();
+                }
+
+                if (typeof getCookie === 'function') {
+                        const cookieLang = getCookie('lang');
+                        if (cookieLang) {
+                                return cookieLang;
+                        }
+                }
+
+                return 'ES';
+        }
+
+        buildErrorText(codigoerror, lang){
+                const dictionaries = {
+                        ES: typeof textos_ES !== 'undefined' ? textos_ES : null,
+                        EN: typeof textos_EN !== 'undefined' ? textos_EN : null
+                };
+
+                const activeDictionary = dictionaries[lang] || dictionaries.ES || {};
+                const translated = Object.prototype.hasOwnProperty.call(activeDictionary, codigoerror)
+                        ? activeDictionary[codigoerror]
+                        : codigoerror;
+
+                return `${codigoerror}-${lang}: ${translated}`;
+        }
 
 	fillform(formdata, idform){
 		document.getElementById(idform).innerHTML = formdata;
