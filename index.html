@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 	<head>
 		<!--
@@ -21,110 +21,285 @@
 				- ET3_Datos_NombreEquipo.js: datos del equipo para pintarlos dinámicamente en index.
 		-->
 		<!-- meta y configuracion global-->
-		<meta charset="UTF-8">
+		<meta charset="UTF-8" />
 		<!-- css -->
-                <link rel="stylesheet" type="text/css" href="./Base/css/IU.css" media="screen" />
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="./Base/css/IU.css"
+			media="screen"
+		/>
 		<!-- clases generales -->
 		<script type="text/javascript" src="./Core/LanguageManager.js"></script>
 		<script type="text/javascript" src="./Core/App_Class.js"></script>
-		<script type="text/javascript" src="./Core/AbstractEntity.js"></script> <!-- No se usa en el flujo principal actualmente -->
-		<script type="text/javascript" src="./Core/GeneralUIManager.js"></script>
+		<script type="text/javascript" src="./Core/AbstractEntity.js"></script>
+		<!-- No se usa en el flujo principal actualmente -->
+		<script
+			type="text/javascript"
+			src="./Core/GeneralUIManager.js"
+		></script>
 		<!-- idioma -->
 		<script type="text/javascript" src="./locale/idioma.js"></script>
 		<script type="text/javascript" src="./app/Textos_ES.js"></script>
 		<script type="text/javascript" src="./app/Textos_EN.js"></script>
 		<script type="text/javascript" src="./app/Textos_Comunes.js"></script>
-		<script type="text/javascript" src="./Core/Validations_Class.js"></script>
-		<script type="text/javascript" src="./Core/DOMFormTableBuilder.js"></script>
-		<script type="text/javascript" src="./Core/ExternalAccess_class.js"></script>
+		<script
+			type="text/javascript"
+			src="./Core/Validations_Class.js"
+		></script>
+		<script
+			type="text/javascript"
+			src="./Core/DOMFormTableBuilder.js"
+		></script>
+		<script
+			type="text/javascript"
+			src="./Core/ExternalAccess_class.js"
+		></script>
 		<!-- clases dom -->
 		<script type="text/javascript" src="./Core/Dom_table_Class.js"></script>
 		<script type="text/javascript" src="./Core/Dom_Class.js"></script>
-		<script type="text/javascript" src="./Base/EntidadAbstracta.js"></script>
+		<script
+			type="text/javascript"
+			src="./Base/EntidadAbstracta.js"
+		></script>
 		<script type="text/javascript" src="./app/entitiesConfig.js"></script>
-		<script type="text/javascript" src="./app/estructura_persona.js"></script>
-				<script type="text/javascript" src="./app/estructura_producto.js"></script>
+		<script
+			type="text/javascript"
+			src="./app/estructura_persona.js"
+		></script>
+		<script
+			type="text/javascript"
+			src="./app/estructura_producto.js"
+		></script>
 		<!-- clases entidades -->
 		<script type="text/javascript" src="./app/entidad_Class.js"></script>
 		<!--<script type="text/javascript" src="./app/_Class.js"></script>
 		<script type="text/javascript" src="./app/_Class.js"></script>-->
 		<!-- clases de test -->
-		<script type="text/javascript" src="./Test/Unit/Unit_Test_Class.js"></script>
-		<script type="text/javascript" src="./Test/Data/Data_Test_Class.js"></script>
+		<script
+			type="text/javascript"
+			src="./Test/Unit/Unit_Test_Class.js"
+		></script>
+		<script
+			type="text/javascript"
+			src="./Test/Data/Data_Test_Class.js"
+		></script>
 		<!-- ficheros de testing-->
-		<script type="text/javascript" src="./ET3_Datos_NombreEquipo.js"></script>
+		<script
+			type="text/javascript"
+			src="./ET3_Datos_NombreEquipo.js"
+		></script>
 		<!-- este es el script que carga las librerias ajax que usamos para acceder al back -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
 	</head>
-	<body onload="initPage();">
-                <header id='header_page' class='bordeado'>
-                        <span class='text_titulo_app'></span>
-                        <img src="./iconos/Spain.png" alt="Cambiar idioma a español" role="button" tabindex="0" onclick="changeLanguage('ES');" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();changeLanguage('ES');}" />
-                        <img src="./iconos/United-Kingdom.png" alt="Cambiar idioma a inglés" role="button" tabindex="0" onclick="changeLanguage('EN');" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();changeLanguage('EN');}" />
-                        <a id="api-doc-link" href="./API.html" aria-label="Abrir documentación de la API"> <img src="./iconos/API.png" alt="Acceso a la documentación de la API" /></a>
-                </header>
-                <nav class='bordeado'><span class = 'text_titulo_menu' role="button" tabindex="0" onclick="menu_work();" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();menu_work();}"></span></nav>
+	<body onload="initPage()">
+		<header id="header_page" class="bordeado">
+			<span class="text_titulo_app"></span>
+			<img
+				src="./iconos/Spain.png"
+				alt="Cambiar idioma a español"
+				role="button"
+				tabindex="0"
+				onclick="changeLanguage('ES')"
+				onkeydown="
+					if (event.key === 'Enter' || event.key === ' ') {
+						event.preventDefault();
+						changeLanguage('ES');
+					}
+				"
+			/>
+			<img
+				src="./iconos/United-Kingdom.png"
+				alt="Cambiar idioma a inglés"
+				role="button"
+				tabindex="0"
+				onclick="changeLanguage('EN')"
+				onkeydown="
+					if (event.key === 'Enter' || event.key === ' ') {
+						event.preventDefault();
+						changeLanguage('EN');
+					}
+				"
+			/>
+			<a
+				id="api-doc-link"
+				href="./API.html"
+				aria-label="Abrir documentación de la API"
+			>
+				<img
+					src="./iconos/API.png"
+					alt="Acceso a la documentación de la API"
+			/></a>
+		</header>
+		<nav class="bordeado">
+			<span
+				class="text_titulo_menu"
+				role="button"
+				tabindex="0"
+				onclick="menu_work()"
+				onkeydown="
+					if (event.key === 'Enter' || event.key === ' ') {
+						event.preventDefault();
+						menu_work();
+					}
+				"
+			></span>
+		</nav>
 		<!-- El menú dinámico de entidades se integrará en este contenedor. -->
-		<aside id='div-menu'>
+		<aside id="div-menu">
 			<ol id="entity-menu-list"></ol>
 		</aside>
 		<section id="IU_manage_entity">
 			<section id="IU_manage_head">
-				<div id='title_page' class='bordeado'><span id = "text_title_page"></span></div>
+				<div id="title_page" class="bordeado">
+					<span id="text_title_page"></span>
+				</div>
 				<div id="add_search_columns">
-                                        <img id="botonADD" src="./iconos/ADD.png" alt="Abrir formulario de alta" role="button" tabindex="0" onclick="uiManager.refreshAddView();" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();uiManager.refreshAddView();}" />
-                                        <img id="botonSEARCH" src="./iconos/SEARCH.png" alt="Abrir formulario de búsqueda" role="button" tabindex="0" onclick="uiManager.refreshSearchView();" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();uiManager.refreshSearchView();}"/>
-                                        <label id="label_seleccioncolumnas" class ="label_seleccioncolumnas"></label>
-                                        <select id="seleccioncolumnas" multiple></select>
-                                        <img id="botonTEST_UNIT" src="./iconos/TEST_UNIT.png" alt="Ejecutar tests unitarios" role="button" tabindex="0" onclick="test = new Unit_Test(entidad?.nombreentidad || uiManager.currentEntity?.nombreentidad)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();test = new Unit_Test(entidad?.nombreentidad || uiManager.currentEntity?.nombreentidad);}"/>
-                                        <img id="botonTEST_DATA" src="./iconos/TEST.png" alt="Ejecutar tests de datos" role="button" tabindex="0" onclick="test = new Data_Test(eval(entidad?.nombreentidad || uiManager.currentEntity?.nombreentidad))" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();test = new Data_Test(eval(entidad?.nombreentidad || uiManager.currentEntity?.nombreentidad));}"/>
+					<img
+						id="botonADD"
+						src="./iconos/ADD.png"
+						alt="Abrir formulario de alta"
+						role="button"
+						tabindex="0"
+						onclick="uiManager.refreshAddView()"
+						onkeydown="
+							if (event.key === 'Enter' || event.key === ' ') {
+								event.preventDefault();
+								uiManager.refreshAddView();
+							}
+						"
+					/>
+					<img
+						id="botonSEARCH"
+						src="./iconos/SEARCH.png"
+						alt="Abrir formulario de búsqueda"
+						role="button"
+						tabindex="0"
+						onclick="uiManager.refreshSearchView()"
+						onkeydown="
+							if (event.key === 'Enter' || event.key === ' ') {
+								event.preventDefault();
+								uiManager.refreshSearchView();
+							}
+						"
+					/>
+					<label
+						id="label_seleccioncolumnas"
+						class="label_seleccioncolumnas"
+					></label>
+					<select id="seleccioncolumnas" multiple></select>
+					<img
+						id="botonTEST_UNIT"
+						src="./iconos/TEST_UNIT.png"
+						alt="Ejecutar tests unitarios"
+						role="button"
+						tabindex="0"
+						onclick="
+							test = new Unit_Test(
+								entidad?.nombreentidad ||
+									uiManager.currentEntity?.nombreentidad,
+							)
+						"
+						onkeydown="
+							if (event.key === 'Enter' || event.key === ' ') {
+								event.preventDefault();
+								test = new Unit_Test(
+									entidad?.nombreentidad ||
+										uiManager.currentEntity?.nombreentidad,
+								);
+							}
+						"
+					/>
+					<img
+						id="botonTEST_DATA"
+						src="./iconos/TEST.png"
+						alt="Ejecutar tests de datos"
+						role="button"
+						tabindex="0"
+						onclick="
+							test = new Data_Test(
+								eval(
+									entidad?.nombreentidad ||
+										uiManager.currentEntity?.nombreentidad,
+								),
+							)
+						"
+						onkeydown="
+							if (event.key === 'Enter' || event.key === ' ') {
+								event.preventDefault();
+								test = new Data_Test(
+									eval(
+										entidad?.nombreentidad ||
+											uiManager.currentEntity
+												?.nombreentidad,
+									),
+								);
+							}
+						"
+					/>
 				</div>
 			</section>
 			<section id="IU_manage_table"></section>
 		</section>
 		<!-- La zona dinámica de formularios y tablas se generará automáticamente en esta sección. -->
-		<section id="Div_IU_form" class='div_IU_form bordeado'>
-			<div class = "contenidoForm" id="contenidoForm">
-				<div class = "class_titulo_form">
+		<section id="Div_IU_form" class="div_IU_form bordeado">
+			<div class="contenidoForm" id="contenidoForm">
+				<div class="class_titulo_form">
 					<span id="class_contenido_titulo_form"></span>
 				</div>
 				<div id="contenedor_IU_form"></div>
-				<br>
-                <img src="./iconos/BACK.png" alt="Cerrar formulario" role="button" tabindex="0" onclick="entidad.dom.hide_element('Div_IU_form');" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();entidad.dom.hide_element('Div_IU_form');}" />
+				<br />
+				<img
+					src="./iconos/BACK.png"
+					alt="Cerrar formulario"
+					role="button"
+					tabindex="0"
+					onclick="window.entidad.dom.hide_element('Div_IU_form')"
+					onkeydown="
+						if (event.key === 'Enter' || event.key === ' ') {
+							event.preventDefault();
+							entidad.dom.hide_element('Div_IU_form');
+						}
+					"
+				/>
 			</div>
 		</section>
-		<section id="Div_IU_Test" class='div_IU_form bordeado'></section>
-		<section id="IU_Test_result" class='bordeado contenidoTest'>
-			<section id="IU_Test_result_nofile" class="'bordeado "></section>
+		<section id="Div_IU_Test" class="div_IU_form bordeado"></section>
+		<section id="IU_Test_result" class="bordeado contenidoTest">
+			<section id="IU_Test_result_nofile" class="'bordeado"></section>
 			<section id="IU_Test_result_file" class="'bordeado"></section>
 		</section>
-		<article class='bordeado'><span class="text_article_section"></span></article>
-		<section id="team-data-section" class='bordeado'>
+		<article class="bordeado">
+			<span class="text_article_section"></span>
+		</article>
+		<section id="team-data-section" class="bordeado">
 			<h2 class="text_team_data_title"></h2>
 			<div id="team-data-content"></div>
 		</section>
-		<footer class='bordeado'><span class="text_titulo_pie"></span></footer>
-		
+		<footer class="bordeado"><span class="text_titulo_pie"></span></footer>
+
 		<!-- Overlay para acompañar el modal -->
 		<div id="modal_action_overlay"></div>
-		
+
 		<!-- Modal para mostrar los errores de accion -->
 		<div id="error_action_modal">
 			<span id="error_action_msg"></span>
 			<!--<img src="./iconos/BACK.png" onclick="cerrarModalError();" />-->
 			<button onclick="entidad.dom.cerrarModalError()">X</button>
 		</div>
-		
+
 		<script type="text/javascript">
-			function initPage(){
-				window['entidad'] = entidad;
-				window.nombreClaseEntidad = 'entidad';
-				window.generalUIManager = new GeneralUIManager('ES');
-				window.uiManager = new UIManager({ validationManager: new Validations(), languageManager: generalUIManager.languageManager });
+			function initPage() {
+				window["entidad"] = entidad;
+				window.nombreClaseEntidad = "entidad";
+				window.generalUIManager = new GeneralUIManager("ES");
+				window.uiManager = new UIManager({
+					validationManager: new Validations(),
+					languageManager: generalUIManager.languageManager,
+				});
 				generalUIManager.hideInitialSections();
 				generalUIManager.initDefaultLanguage();
-				generalUIManager.renderTeamData('team-data-content');
+				generalUIManager.renderTeamData("team-data-content");
 				applyStaticTranslations();
 				renderEntityMenu();
 			}
@@ -132,54 +307,74 @@
 			function changeLanguage(lang) {
 				if (window.generalUIManager?.languageManager?.setLang) {
 					window.generalUIManager.languageManager.setLang(lang);
-				} else if (typeof setLang === 'function') {
+				} else if (typeof setLang === "function") {
 					setLang(lang);
 				}
 			}
 
 			function applyStaticTranslations() {
-				const apiLink = document.getElementById('api-doc-link');
+				const apiLink = document.getElementById("api-doc-link");
 				const langManager = window.generalUIManager?.languageManager;
 
 				if (apiLink && langManager?.registerTranslationElement) {
-					langManager.registerTranslationElement(apiLink, 'text_api_link_title', 'Documentación API', 'title'); // es una imagen, por lo tanto, estará aquí
+					langManager.registerTranslationElement(
+						apiLink,
+						"text_api_link_title",
+						"Documentación API",
+						"title",
+					); // es una imagen, por lo tanto, estará aquí
 				}
 			}
 
 			function renderEntityMenu() {
-				const menuList = document.getElementById('entity-menu-list');
+				const menuList = document.getElementById("entity-menu-list");
 				if (!menuList) return;
 
-				menuList.innerHTML = '';
-				const entities = Array.isArray(window.entitiesConfig) ? window.entitiesConfig : [];
+				menuList.innerHTML = "";
+				const entities = Array.isArray(window.entitiesConfig)
+					? window.entitiesConfig
+					: [];
 
 				entities.forEach((entityName) => {
-                                const listItem = document.createElement('li');
-                                listItem.className = 'opcionmenu';
+					const listItem = document.createElement("li");
+					listItem.className = "opcionmenu";
 
-                                const trigger = document.createElement('span');
-                                const entityLabelKey = `text_entity_${entityName}`;
-                                const menuLabelKey = `text_menu_${entityName}`;
-                                trigger.className = `${entityLabelKey} ${menuLabelKey}`;
-                                trigger.onclick = () => window.uiManager?.loadEntity(entityName);
-                                trigger.tabIndex = 0;
-                                trigger.setAttribute('role', 'button');
-                                trigger.setAttribute('aria-label', `${entityName}`);
-                                trigger.onkeydown = (event) => {
-                                        if (event.key === 'Enter' || event.key === ' ') {
-                                                event.preventDefault();
-                                                window.uiManager?.loadEntity(entityName);
-                                        }
-                                };
+					const trigger = document.createElement("span");
+					const entityLabelKey = `text_entity_${entityName}`;
+					const menuLabelKey = `text_menu_${entityName}`;
+					trigger.className = `${entityLabelKey} ${menuLabelKey}`;
+					trigger.onclick = () =>
+						window.uiManager?.loadEntity(entityName);
+					trigger.tabIndex = 0;
+					trigger.setAttribute("role", "button");
+					trigger.setAttribute("aria-label", `${entityName}`);
+					trigger.onkeydown = (event) => {
+						if (event.key === "Enter" || event.key === " ") {
+							event.preventDefault();
+							window.uiManager?.loadEntity(entityName);
+						}
+					};
 
-                                const resolvedText = window.generalUIManager?.languageManager?.getText?.(entityLabelKey)
-                                        || window.generalUIManager?.languageManager?.getText?.(menuLabelKey)
-                                        || entityName;
-                                trigger.textContent = resolvedText;
+					const resolvedText =
+						window.generalUIManager?.languageManager?.getText?.(
+							entityLabelKey,
+						) ||
+						window.generalUIManager?.languageManager?.getText?.(
+							menuLabelKey,
+						) ||
+						entityName;
+					trigger.textContent = resolvedText;
 
-                                if (window.generalUIManager?.languageManager?.registerTranslationElement) {
-                                        window.generalUIManager.languageManager.registerTranslationElement(trigger, entityLabelKey, resolvedText);
-                                }
+					if (
+						window.generalUIManager?.languageManager
+							?.registerTranslationElement
+					) {
+						window.generalUIManager.languageManager.registerTranslationElement(
+							trigger,
+							entityLabelKey,
+							resolvedText,
+						);
+					}
 
 					listItem.appendChild(trigger);
 					menuList.appendChild(listItem);
