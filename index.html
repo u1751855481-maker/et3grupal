@@ -43,16 +43,16 @@
 		<script type="text/javascript" src="./Base/EntidadAbstracta.js"></script>
 		<script type="text/javascript" src="./app/entitiesConfig.js"></script>
 		<script type="text/javascript" src="./app/estructura_producto.js"></script>
-		<script type="text/javascript" src="./app/estructura_persona.js"></script>
+		<script type="text/javascript" src="./app/estructura_entidad.js"></script>
 		<!-- clases entidades -->
-		<script type="text/javascript" src="./app/persona_Class.js"></script>
+		<script type="text/javascript" src="./app/entidad_Class.js"></script>
 		<!--<script type="text/javascript" src="./app/_Class.js"></script>
 		<script type="text/javascript" src="./app/_Class.js"></script>-->
 		<!-- clases de test -->
 		<script type="text/javascript" src="./Test/Unit/Unit_Test_Class.js"></script>
 		<script type="text/javascript" src="./Test/Data/Data_Test_Class.js"></script>
 		<!-- ficheros de testing-->
-		<script type="text/javascript" src="./app/ET2_persona_infotest.js"></script>
+		<script type="text/javascript" src="./app/ET2_entidad_infotest.js"></script>
 		<script type="text/javascript" src="./ET3_Datos_NombreEquipo.js"></script>
 		<!-- este es el script que carga las librerias ajax que usamos para acceder al back -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -119,8 +119,8 @@
 		
 		<script type="text/javascript">
 			function initPage(){
-				window['persona'] = persona;
-				window.nombreClaseEntidad = 'persona';
+				window['entidad'] = entidad;
+				window.nombreClaseEntidad = 'entidad';
 				window.generalUIManager = new GeneralUIManager('ES');
 				window.uiManager = new UIManager({ validationManager: new Validations(), languageManager: generalUIManager.languageManager });
 				generalUIManager.hideInitialSections();
