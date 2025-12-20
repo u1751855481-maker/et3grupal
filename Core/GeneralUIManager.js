@@ -4,13 +4,8 @@
  * Se apoya en clases ya existentes (entidades concretas, builder de formularios/tablas y validaciones)
  * y expone puntos de integración claros para el back y para renderizadores dinámicos.
  */
-// Base seguro para evitar errores de carga cuando EntidadAbstracta aún no está disponible.
-const GenericBaseEntity =
-	typeof EntidadAbstracta === "function"
-		? EntidadAbstracta
-		: class {
-				constructor(...args) {}
-			};
+// Base segura para evitar errores de carga cuando EntidadAbstracta aún no está disponible.
+const GenericBaseEntity = typeof EntidadAbstracta === "function" ? EntidadAbstracta : class { constructor(...args) {} };
 
 // Registro en memoria para las estructuras generales conocidas.
 class StructureRegistry {
@@ -53,7 +48,6 @@ class GenericStructureEntity extends GenericBaseEntity {
 		super("test");
 		this.entityName = entityName;
 		this.structure = structure;
-		this.dom = new dom();
 	}
 
 	getEntityName() {
@@ -115,6 +109,7 @@ class UIManager {
 		window.entidad = this.currentEntity; // compatibilidad con botones existentes
 
 		this.refreshSearchView();
+		window.entidad.dom.hide_element('Div_IU_form'); //para que no aparezca el buscador
 		const manageSection = document.getElementById("IU_manage_entity");
 		manageSection?.classList.remove("hidden");
 		if (manageSection) {
@@ -135,7 +130,7 @@ class UIManager {
 			}
 		}
 
-		const fallbackStructure = this.getGeneralStructure(entityName);
+		const fallbackStructure = this.getGeneralStructure(entityName); // en caso de llegar aquí significa ir a entidad_Class y que la genere
 		return new GenericStructureEntity(entityName, fallbackStructure);
 	}
 

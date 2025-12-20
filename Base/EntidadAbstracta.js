@@ -62,7 +62,7 @@ class EntidadAbstracta{
         .then((respuesta) => {
             
             //limpiar el formulario
-			document.getElementById('contenedor_IU_form').innerHTML = this.manual_form_creation();
+			//document.getElementById('contenedor_IU_form').innerHTML = this.manual_form_creation();
 			this.dom.hide_element('Div_IU_form');
 
             if (respuesta['code'] == 'RECORDSET_DATOS'){
