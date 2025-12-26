@@ -124,8 +124,8 @@ class DOMFormTableBuilder {
             const resetButton = document.createElement('button');
             resetButton.type = action === 'SEARCH' ? 'reset' : 'button';
             resetButton.classList.add('boton-secundario', 'bordeado');
-            const resetKey = action === 'SEARCH' ? 'action.search.reset.button' : 'action.cancel.button';
-            const resetFallback = action === 'SEARCH' ? 'Limpiar' : 'Cancelar';
+            const resetKey = 'action.search.reset.button';
+            const resetFallback = 'Limpiar';
             this.#setTranslatedText(resetButton, resetKey, resetFallback);
             actionsContainer.appendChild(resetButton);
 
@@ -133,6 +133,27 @@ class DOMFormTableBuilder {
 
             formElement.appendChild(actionsContainer);
         }
+        
+        let elementosAOcultar = {}
+        document.getElementsByClassName('form-group').forEach(element => {
+            let temp = element.getElementsByTagName('input')[0];
+            if (temp.getAttribute('type') === 'file'){
+                elementosAOcultar.add(element);
+            }
+        });
+        
+        if(['ADD', 'EDIT'].includes(action)){
+            
+        } else {
+            var i = 0;
+            var tam = elementosAOcultar.length;
+
+            while (i < tam) {
+                elementosAOcultar[0].remove();
+                i++;
+            }
+        }
+
         containerElement.appendChild(formElement);
     }
 
@@ -264,7 +285,7 @@ class DOMFormTableBuilder {
                         : [];
                     if (allowedTypes.length > 0) {
                         element.accept = allowedTypes.join(',');
-                    }
+                    }                    
                 }
 
                 element.id = baseId;
