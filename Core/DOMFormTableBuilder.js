@@ -133,26 +133,6 @@ class DOMFormTableBuilder {
 
             formElement.appendChild(actionsContainer);
         }
-        
-        let elementosAOcultar = {}
-        document.getElementsByClassName('form-group').forEach(element => {
-            let temp = element.getElementsByTagName('input')[0];
-            if (temp.getAttribute('type') === 'file'){
-                elementosAOcultar.add(element);
-            }
-        });
-        
-        if(['ADD', 'EDIT'].includes(action)){
-            
-        } else {
-            var i = 0;
-            var tam = elementosAOcultar.length;
-
-            while (i < tam) {
-                elementosAOcultar[0].remove();
-                i++;
-            }
-        }
 
         containerElement.appendChild(formElement);
     }
