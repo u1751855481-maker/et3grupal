@@ -213,6 +213,32 @@ class UIManager {
 		this.ensureFormVisibility();
 		this.applyLanguage();
 		this.attachValidationHooks(action);
+
+		let elementosFile = Array.from(document.querySelectorAll('.form-group input[type="file"]'));
+		
+		if(action !== 'EDIT'){ // si es EDIT deben existir los 2, xxxx_nuevo_yyyy xxxx_yyyy (siendo posible xxxx no existir)
+			let elementosParaBorrar = elementosFile;
+			if (action === 'ADD'){ //eliminar xxxx_yyyy
+					elementosParaBorrar = [];
+					elementosFile.forEach(element => {
+						let idAntiguo = element.id.replace('_nuevo', '');
+						// Buscamos ese elemento en el DOM
+						let inputAntiguo = document.getElementById(idAntiguo);
+
+						if (inputAntiguo) { 
+							inputAntiguo.closest('.form-group')?.remove();
+						} else {
+							//recordemos que pudo haber error en la estructura, avisamos
+							alert('Error: No se encontró el input text antiguo con ID: ' + idAntiguo);
+						}
+					});					
+			} else{ // eliminar xxxx_nuevo_yyyy
+				elementosParaBorrar.forEach(element => {
+					element.closest('.form-group')?.remove();
+				});
+			}			
+		}
+		
 	}
 
 	renderWithBuilder(action, payload = null) {
