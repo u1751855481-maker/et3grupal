@@ -215,30 +215,56 @@ class UIManager {
 		this.attachValidationHooks(action);
 
 		let elementosFile = Array.from(document.querySelectorAll('.form-group input[type="file"]'));
+
+		if(action !== 'ADD'){
+		 	elementosFile.forEach(element => {
+		 		const idAntiguo = element.id.replace('_nuevo', '');
+		 		const inputAntiguo = document.getElementById(idAntiguo);
+		 		if (inputAntiguo && inputAntiguo.value) {
+		 			const formGroup = inputAntiguo.closest('.form-group');
+					
+		 			if (formGroup) {
+		 				let elementoLink = document.createElement('a');
+		 				elementoLink.id = 'link_' + idAntiguo;
+		 				elementoLink.href = 'http://193.147.87.202/' + 'ET2' + `/filesuploaded/files_'${idAntiguo}/${inputAntiguo.value}`;
+						
+		 				let elementoImagen = document.createElement('img');
+		 				elementoImagen.src = '../iconos/FILE.png';
+		 				elementoLink.appendChild(elementoImagen);
+		 				formGroup.appendChild(elementoLink);
+		 			}
+		 		}
+		 	});
+		 }
 		
 		if(action !== 'EDIT'){ // si es EDIT deben existir los 2, xxxx_nuevo_yyyy xxxx_yyyy (siendo posible xxxx no existir)
 			let elementosParaBorrar = elementosFile;
-			if (action === 'ADD'){ //eliminar xxxx_yyyy
-					elementosParaBorrar = [];
+			if (['ADD'].includes(action)){ //eliminar xxxx_yyyy
 					elementosFile.forEach(element => {
 						let idAntiguo = element.id.replace('_nuevo', '');
 						// Buscamos ese elemento en el DOM
 						let inputAntiguo = document.getElementById(idAntiguo);
-
-						if (inputAntiguo) { 
-							inputAntiguo.closest('.form-group')?.remove();
+						if(inputAntiguo){
+							let divAntiguo = inputAntiguo.closest('.form-group');
+							if (divAntiguo){
+								divAntiguo.style.display = 'none';
+							}
 						} else {
 							//recordemos que pudo haber error en la estructura, avisamos
-							alert('Error: No se encontró el input text antiguo con ID: ' + idAntiguo);
+							alert('Error: No se encontró el input text de archivo con ID: ' + idAntiguo);
 						}
-					});					
-			} else{ // eliminar xxxx_nuevo_yyyy
+					});
+			}
+			if (action !== 'ADD') { // eliminar xxxx_nuevo_yyyy
 				elementosParaBorrar.forEach(element => {
-					element.closest('.form-group')?.remove();
+					let divAntiguo = element.closest('.form-group')
+					if(divAntiguo){
+						divAntiguo.style.display = 'none';
+					}
 				});
 			}			
 		}
-		
+
 	}
 
 	renderWithBuilder(action, payload = null) {
