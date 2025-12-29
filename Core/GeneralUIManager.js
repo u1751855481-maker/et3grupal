@@ -226,7 +226,7 @@ class UIManager {
 		 			if (formGroup) {
 		 				let elementoLink = document.createElement('a');
 		 				elementoLink.id = 'link_' + idAntiguo;
-		 				elementoLink.href = 'http://193.147.87.202/' + 'ET2' + `/filesuploaded/files_'${idAntiguo}/${inputAntiguo.value}`;
+		 				elementoLink.href = 'http://193.147.87.202/' + 'ET2' + `/filesuploaded/files_${idAntiguo}/${inputAntiguo.value}`;
 						
 		 				let elementoImagen = document.createElement('img');
 		 				elementoImagen.src = '../iconos/FILE.png';
