@@ -216,11 +216,11 @@ class UIManager {
 
 		let elementosFile = Array.from(document.querySelectorAll('.form-group input[type="file"]'));
 
-		if(action !== 'ADD'){
+		if(!['ADD', 'SEARCH'].includes(action)){ //si es un add o un search no tienen un antiguo file guardado, entonces no ponemos el enlace
 		 	elementosFile.forEach(element => {
 		 		const idAntiguo = element.id.replace('_nuevo', '');
 		 		const inputAntiguo = document.getElementById(idAntiguo);
-		 		if (inputAntiguo && inputAntiguo.value) {
+		 		if (inputAntiguo && inputAntiguo.value) {// puede no existir en la estructura el antiguo file, por eso revisamos
 		 			const formGroup = inputAntiguo.closest('.form-group');
 					
 		 			if (formGroup) {
@@ -239,7 +239,7 @@ class UIManager {
 		
 		if(action !== 'EDIT'){ // si es EDIT deben existir los 2, xxxx_nuevo_yyyy xxxx_yyyy (siendo posible xxxx no existir)
 			let elementosParaBorrar = elementosFile;
-			if (['ADD'].includes(action)){ //eliminar xxxx_yyyy
+			if (['ADD', 'SEARCH'].includes(action)){ //eliminar xxxx_yyyy
 					elementosFile.forEach(element => {
 						let idAntiguo = element.id.replace('_nuevo', '');
 						// Buscamos ese elemento en el DOM
@@ -255,7 +255,7 @@ class UIManager {
 						}
 					});
 			}
-			if (action !== 'ADD') { // eliminar xxxx_nuevo_yyyy
+			if (action !== 'ADD') { // eliminar xxxx_nuevo_yyyy en acciones que no sean un EDIT (revisado antes) o un ADD
 				elementosParaBorrar.forEach(element => {
 					let divAntiguo = element.closest('.form-group')
 					if(divAntiguo){
