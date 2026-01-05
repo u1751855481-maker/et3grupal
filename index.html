@@ -44,6 +44,7 @@
         <script type="text/javascript" src="./Core/GeneralUIManager.js"></script>
         <!-- clases entidades -->
         <script type="text/javascript" src="./app/entidad_Class.js"></script>
+        <script type="text/javascript" src="./app/persona_Class.js"></script>
         <!--<script type="text/javascript" src="./app/_Class.js"></script>
 		<script type="text/javascript" src="./app/_Class.js"></script>-->
         <!-- clases de test -->
@@ -55,6 +56,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <!-- css -->
         <link rel="stylesheet" type="text/css" href="./Base/css/IU.css" media="screen" />
+        <link rel="icon" type="image/png" href="./iconos/API.png" />
     </head>
     <body onload="initPage()">
         <header id="header_page" class="bordeado">
@@ -96,28 +98,19 @@
                     />
                     <label id="label_seleccioncolumnas" class="label_seleccioncolumnas"></label>
                     <select id="seleccioncolumnas" multiple></select>
-                    <img id="botonTEST_UNIT" src="./iconos/TEST_UNIT.png" alt="Ejecutar tests unitarios" role="button" tabindex="0" onclick="test = new Unit_Test(entidad?.nombreentidad || uiManager.currentEntity?.nombreentidad)"
+                    <img id="botonTEST_UNIT" src="./iconos/TEST_UNIT.png" alt="Ejecutar tests unitarios" role="button" tabindex="0" onclick="runUnitTest()"
                         onkeydown="
                             if (event.key === 'Enter' || event.key === ' ') {
                                 event.preventDefault();
-                                test = new Unit_Test(
-                                    entidad?.nombreentidad ||
-                                        uiManager.currentEntity?.nombreentidad,
-                                );
+                                runUnitTest();
                             }
                         "
                     />
-                    <img id="botonTEST_DATA" src="./iconos/TEST.png" alt="Ejecutar tests de datos" role="button" tabindex="0" onclick="test = new Data_Test(eval(entidad?.nombreentidad || uiManager.currentEntity?.nombreentidad))"
+                    <img id="botonTEST_DATA" src="./iconos/TEST.png" alt="Ejecutar tests de datos" role="button" tabindex="0" onclick="runDataTest()"
                         onkeydown="
                             if (event.key === 'Enter' || event.key === ' ') {
                                 event.preventDefault();
-                                test = new Data_Test(
-                                    eval(
-                                        entidad?.nombreentidad ||
-                                            uiManager.currentEntity
-                                                ?.nombreentidad,
-                                    ),
-                                );
+                                runDataTest();
                             }
                         "
                     />
@@ -176,6 +169,53 @@
                 generalUIManager.renderTeamData("team-data-content");
                 applyStaticTranslations();
                 renderEntityMenu();
+            }
+
+            function resolveCurrentEntityName() {
+                return (
+                    entidad?.nombreentidad ||
+                    uiManager.currentEntity?.nombreentidad ||
+                    "persona"
+                );
+            }
+
+            function resolveCurrentEntityClass() {
+                const entityName = resolveCurrentEntityName();
+                if (entityName && window[entityName]) {
+                    return window[entityName];
+                }
+
+                if (uiManager.currentEntity?.constructor) {
+                    return uiManager.currentEntity.constructor;
+                }
+
+                return window.persona || null;
+            }
+
+            function runUnitTest() {
+                const entityName = resolveCurrentEntityName();
+                test = new Unit_Test(entityName);
+            }
+
+            function runDataTest() {
+                const entityName = resolveCurrentEntityName();
+                const entityClass = resolveCurrentEntityClass();
+                const hasTests =
+                    typeof window[`${entityName}_def_tests`] !== "undefined";
+
+                if (!entityClass || !hasTests) {
+                    const langManager =
+                        window.generalUIManager?.languageManager;
+                    const message =
+                        langManager?.getText?.(
+                            "error.data.test.missing.entity",
+                        ) ||
+                        "No hay una entidad válida para ejecutar los tests de datos.";
+                    alert(message);
+                    return;
+                }
+
+                test = new Data_Test(entityClass);
             }
 
             function changeLanguage(lang) {

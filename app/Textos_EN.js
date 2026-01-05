@@ -77,6 +77,7 @@ var textos_EN = {
         'error.form.not.found': 'No form is available for this entity.',
         'error.attribute.special.format': 'No custom display has been defined for this attribute.',
         'error.data.test.unsupported.element': 'There is no element type defined in test {testId}.',
+        'error.data.test.missing.entity': 'There is no valid entity available to run data tests.',
 
 	// errores validaciones formulario
 	// ADD/EDIT

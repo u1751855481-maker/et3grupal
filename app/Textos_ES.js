@@ -77,6 +77,7 @@ var textos_ES = {
         'error.form.not.found': 'No se ha encontrado un formulario para la entidad.',
         'error.attribute.special.format': 'No existe una configuración especial para mostrar este atributo.',
         'error.data.test.unsupported.element': 'No hay tipo de elemento definido en el test {testId}.',
+        'error.data.test.missing.entity': 'No hay una entidad válida para ejecutar los tests de datos.',
 
 	// errores validaciones formulario
 	// ADD/EDIT
