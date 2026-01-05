@@ -116,7 +116,7 @@ class UIManager {
     const initialAction =
       this.currentEntity?.defaultAction ||
       this.currentStructure?.defaultAction ||
-      "ADD";
+      "SEARCH";
     this.refreshAction(initialAction);
     const manageSection = document.getElementById("IU_manage_entity");
     manageSection?.classList.remove("hidden");
