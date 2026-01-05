@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap");
 
 * {
     padding: 0;
@@ -7,7 +7,7 @@
 }
 
 html {
-    font-family: 'Geist', sans-serif;
+    font-family: "Geist", sans-serif;
     font-size: 20px;
 }
 
@@ -41,6 +41,12 @@ html {
 .team-data__empty {
     color: #555;
     font-style: italic;
+}
+
+#header-page > a#api-doc-link {
+    border-radius: 8px;
+    border: 1px solid white;
+    background-color: #c7ccd6;
 }
 
 /* Estilos para formularios de entidades */
@@ -88,7 +94,9 @@ html {
     border-radius: 4px;
     font-size: 0.95rem;
     background-color: #fff;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 .entity-form-field input:focus,

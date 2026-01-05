@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap");
 
 :root {
-    --light-color: #EFFEFF;
+    --light-color: #effeff;
     --medium-color: #8fb7bc;
-    --dark-color: #0E2C31;
+    --dark-color: #0e2c31;
     --emphasis-color-1: #4d8c91;
     --emphasis-color-2: #d0f1f4;
     --focus-outline: #f3a712;
@@ -12,7 +12,7 @@
 
 * {
     color: var(--dark-color);
-    font-family: 'Geist', sans-serif;
+    font-family: "Geist", sans-serif;
     padding: 0;
     margin: 0;
 }
@@ -64,7 +64,6 @@ nav > span:focus-visible {
     background-color: var(--dark-color);
     padding: 16pt;
     border: 0;
-    user-select: none;
 }
 
 #header_page > span {
@@ -262,10 +261,22 @@ nav > span:hover {
     transform: scale(0.9);
 }
 
-#botonADD { grid-area: add; }
-#botonSEARCH { grid-area: search; }
-#botonTEST_UNIT { grid-area: test_unit; width: 30pt; height: 30pt; }
-#botonTEST_DATA { grid-area: test; width: 30pt; height: 30pt; }
+#botonADD {
+    grid-area: add;
+}
+#botonSEARCH {
+    grid-area: search;
+}
+#botonTEST_UNIT {
+    grid-area: test_unit;
+    width: 30pt;
+    height: 30pt;
+}
+#botonTEST_DATA {
+    grid-area: test;
+    width: 30pt;
+    height: 30pt;
+}
 
 article {
     border: 2pt solid var(--emphasis-color-1);
@@ -317,8 +328,12 @@ footer {
     user-select: none;
 }
 
-#IU_manage_table th:first-child { border-top-left-radius: 10pt; }
-#IU_manage_table th:last-child { border-top-right-radius: 10pt; }
+#IU_manage_table th:first-child {
+    border-top-left-radius: 10pt;
+}
+#IU_manage_table th:last-child {
+    border-top-right-radius: 10pt;
+}
 
 #IU_manage_table tr td {
     text-align: center;
@@ -334,8 +349,12 @@ footer {
     -webkit-user-drag: none;
 }
 
-#IU_manage_table tr td img:hover { transform: scale(1.0); }
-#IU_manage_table tr td img:active { transform: scale(0.72); }
+#IU_manage_table tr td img:hover {
+    transform: scale(1);
+}
+#IU_manage_table tr td img:active {
+    transform: scale(0.72);
+}
 
 #IU_manage_table tr td a {
     position: absolute;
@@ -347,17 +366,27 @@ footer {
     padding-right: 36pt;
 }
 
-#IU_manage_table tr:nth-child(even) { background-color: var(--emphasis-color-2); }
-#IU_manage_table tr:hover td { background-color: var(--medium-color); }
-#IU_manage_table tr:last-child td:first-child { border-bottom-left-radius: 10pt; }
-#IU_manage_table tr:last-child td:last-child { border-bottom-right-radius: 10pt; }
+#IU_manage_table tr:nth-child(even) {
+    background-color: var(--emphasis-color-2);
+}
+#IU_manage_table tr:hover td {
+    background-color: var(--medium-color);
+}
+#IU_manage_table tr:last-child td:first-child {
+    border-bottom-left-radius: 10pt;
+}
+#IU_manage_table tr:last-child td:last-child {
+    border-bottom-right-radius: 10pt;
+}
 #IU_manage_table tr::selection {
     background-color: var(--dark-color);
     color: var(--light-color);
 }
 
 /* Formularios y modales */
-#Div_IU_form { border: 0; }
+#Div_IU_form {
+    border: 0;
+}
 
 .div_IU_form {
     width: 100%;
@@ -780,7 +809,9 @@ footer {
     border-radius: 4px;
     font-size: 0.95rem;
     background-color: #fff;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 .entity-form-field input:focus,
@@ -974,9 +1005,13 @@ footer {
 }
 
 #Div_IU_Test th:first-child,
-#IU_Test_result th:first-child { border-top-left-radius: 10pt; }
+#IU_Test_result th:first-child {
+    border-top-left-radius: 10pt;
+}
 #Div_IU_Test th:last-child,
-#IU_Test_result th:last-child { border-top-right-radius: 10pt; }
+#IU_Test_result th:last-child {
+    border-top-right-radius: 10pt;
+}
 
 #Div_IU_Test tr td,
 #IU_Test_result tr td {
@@ -996,9 +1031,13 @@ footer {
 }
 
 #Div_IU_Test tr:last-child td:first-child,
-#IU_Test_result tr:last-child td:first-child { border-bottom-left-radius: 10pt; }
+#IU_Test_result tr:last-child td:first-child {
+    border-bottom-left-radius: 10pt;
+}
 #Div_IU_Test tr:last-child td:last-child,
-#IU_Test_result tr:last-child td:last-child { border-bottom-right-radius: 10pt; }
+#IU_Test_result tr:last-child td:last-child {
+    border-bottom-right-radius: 10pt;
+}
 
 #Div_IU_Test tr::selection,
 #IU_Test_result tr::selection {
