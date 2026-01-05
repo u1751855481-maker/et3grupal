@@ -215,7 +215,7 @@ class EntidadAbstracta {
 		recorrer todas las filas de datos y cada atributo para si tiene una funcion de transformación de valor modificarlo en el momento
 		*/
 
-    if (mostrarespeciales && mostrarespeciales.length > 0) {
+    if (mostrarespeciales) {
       for (var i = 0; i < misdatos.length; i++) {
         for (var clave in misdatos[i]) {
           for (var posicion in mostrarespeciales) {
