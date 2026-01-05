@@ -4,7 +4,7 @@ class EntidadAbstracta {
     this.dom = new dom();
     this.validations = new Validations();
     this.access_functions = new ExternalAccess();
-    this.nombreentidad = this.constructor.name;
+    this.nombreentidad = "persona" // ERROR = this.constructor.name;
 
     // si se instancia para test no se muestra el componente de gestion de entidad ni se inicializa el formulario
     //
@@ -56,7 +56,7 @@ class EntidadAbstracta {
   async SEARCH() {
     console.log("EntidadAbstracta::SEARCH", this.nombreentidad);
     await this.access_functions
-      .peticionBackGeneral("form_iu", "alumnograduacion", "SEARCH")
+      .peticionBackGeneral("form_iu", this.nombreentidad, "SEARCH")
       .then((respuesta) => {
         //limpiar el formulario
         //document.getElementById('contenedor_IU_form').innerHTML = this.manual_form_creation();
@@ -195,15 +195,15 @@ class EntidadAbstracta {
     // proceso los datos de la tabla para incluir en cada fila los tres botones conectados a createForm_ACCION()
     for (var i = 0; i < misdatos.length; i++) {
       var linedit =
-        `<img id='botonEDIT' src='./iconos/EDIT.png' onclick='entidad.createForm_EDIT(` +
+        `<img id='botonEDIT' src='./iconos/EDIT.png' onclick='uiManager.refreshEditView(` +
         JSON.stringify(misdatos[i]) +
         `);'>`;
       var lindelete =
-        `<img id='botonDELETE' src='./iconos/DELETE.png' onclick='entidad.createForm_DELETE(` +
+        `<img id='botonDELETE' src='./iconos/DELETE.png' onclick='uiManager.refreshDeleteView(` +
         JSON.stringify(misdatos[i]) +
         `);'>`;
       var linshowcurrent =
-        `<img id='botonSHOWCURRENT' src='./iconos/SHOWCURRENT.png' onclick='entidad.createForm_SHOWCURRENT(` +
+        `<img id='botonSHOWCURRENT' src='./iconos/SHOWCURRENT.png' onclick='uiManager.refreshShowCurrentView(` +
         JSON.stringify(misdatos[i]) +
         `);'>`;
       misdatos[i]["EDIT"] = linedit;

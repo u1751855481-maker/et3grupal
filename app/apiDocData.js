@@ -167,6 +167,15 @@ const apiDocData = [
   },
   {
     className: 'UIManager',
+    methodName: 'refreshDeleteView',
+    params: [
+      { name: 'payload', type: 'object | null', description: 'Tupla a borrar.' }
+    ],
+    returns: 'void',
+    description: 'Atajo para refrescar la vista DELETE.'
+  },
+  {
+    className: 'UIManager',
     methodName: 'refreshAction',
     params: [
       { name: 'action', type: 'string', description: 'Acción CRUD a renderizar.' },

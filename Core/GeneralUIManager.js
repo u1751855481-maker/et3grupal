@@ -114,7 +114,6 @@ class UIManager {
     window.entidad = this.currentEntity; // compatibilidad con botones existentes
 
     this.refreshSearchView();
-    window.entidad.dom.hide_element("Div_IU_form"); //para que no aparezca el buscador
     const manageSection = document.getElementById("IU_manage_entity");
     manageSection?.classList.remove("hidden");
     if (manageSection) {
@@ -191,6 +190,10 @@ class UIManager {
 
   refreshShowCurrentView(payload = null) {
     this.refreshAction("SHOWCURRENT", payload);
+  }
+
+  refreshDeleteView(payload = null) {
+    this.refreshAction("DELETE", payload);
   }
 
   refreshAction(action, payload = null) {
