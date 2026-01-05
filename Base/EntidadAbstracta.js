@@ -4,7 +4,8 @@ class EntidadAbstracta {
     this.dom = new dom();
     this.validations = new Validations();
     this.access_functions = new ExternalAccess();
-    this.nombreentidad = "persona" // ERROR = this.constructor.name;
+    const className = this.constructor?.name || "";
+    this.nombreentidad = className ? className.toLowerCase() : "entidad";
 
     // si se instancia para test no se muestra el componente de gestion de entidad ni se inicializa el formulario
     //
@@ -25,7 +26,9 @@ class EntidadAbstracta {
       //document.getElementById('contenedor_IU_form').innerHTML = this.manual_form_creation();
 
       //invocar busqueda en back con el formulario vacio
-      this.SEARCH();
+      if (!window?.uiManager) {
+        this.SEARCH();
+      }
     }
   }
 
