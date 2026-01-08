@@ -606,18 +606,39 @@ class entidad extends EntidadAbstracta{
                 this.renderActionForm('SEARCH');
         }
 
-        SEARCH(formValues = null){
-                if (!Array.isArray(this.personasDummy)) {
-                        this.lastSearchResults = [];
-                        return this.lastSearchResults;
-                }
+        SEARCH(){
+    
+                console.log("EntidadAbstracta::SEARCH", this.nombreentidad);
+                this.access_functions
+                .peticionBackGeneral("form_iu", this.nombreentidad, "SEARCH")
+                .then((respuesta) => {
+                        //limpiar el formulario
+                        //document.getElementById('contenedor_IU_form').innerHTML = this.manual_form_creation();
+                        this.dom.hide_element("Div_IU_form");
 
-                const filters = formValues || this.collectSearchFormValues();
-                const results = this.filterDummyData(filters);
-                this.lastSearchResults = results;
-                this.renderSearchResults(results);
-                return results;
-        }
+                        if (respuesta["code"] == "RECORDSET_DATOS") {
+                        this.datos = respuesta["resource"];
+                        this.atributos = Object.keys(this.datos[0]);
+                        this.dom.remove_class_value("IU_manage_table", "RECORDSET_");
+                        //crear la tabla de datos de la entidad del back
+                        this.crearTablaDatos(this.datos, this.mostrarespecial);
+                        } else {
+                        this.dom.assign_property_value(
+                        "IU_manage_table",
+                        "style.display",
+                        "block",
+                        );
+                        this.dom.remove_class_value("IU_manage_table", "RECORDSET_");
+                        this.dom.assign_class_value("IU_manage_table", "RECORDSET_VACIO");
+                        //document.getElementById("IU_manage_table").style.display = 'block';
+                        //document.getElementById('IU_manage_table').innerHTML = 'No se han encontrado elementos que coincidan con la búsqueda';
+                        //document.getElementById('IU_manage_table').className = 'RECORDSET_VACIO';
+                        }
+
+                        setLang();
+                });
+    
+    }
 
         collectSearchFormValues(){
                 const form = document.querySelector('#contenedor_IU_form form');
@@ -654,13 +675,6 @@ class entidad extends EntidadAbstracta{
                 });
 
                 return data;
-        }
-
-        filterDummyData(filters = {}){
-                const dataset = Array.isArray(this.personasDummy) ? this.personasDummy : [];
-                return dataset.filter((registro) => {
-                        return Object.entries(filters).every(([key, filterValue]) => this.matchesFilter(registro[key], filterValue));
-                });
         }
 
         matchesFilter(recordValue, filterValue){
