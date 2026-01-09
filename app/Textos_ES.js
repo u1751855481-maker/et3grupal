@@ -2,7 +2,7 @@ var textos_ES = {
 
 	// textos titulos generales
         'text_titulo_app': 'Interfaz ET3 IU',
-        'text_titulo_menu': 'Opciones  Menú',
+        'text_titulo_menu': 'Menú Entidades',
         'text_titulo_pie': 'Pie de página',
     'label_seleccioncolumnas': 'Seleccionar columnas',
     'text_article_section': 'Sección principal',
@@ -130,7 +130,7 @@ var textos_ES = {
         // enumerados
         'menu_persona_valor_KO':'Debe seleccionar un valor válido de menú',
         'genero_persona_valor_KO':'Debe seleccionar un género válido',
-	
+
 
 	//errores acciones
 	'RECORDSET_VACIO' : 'No hay coincidencias para la búsqueda',

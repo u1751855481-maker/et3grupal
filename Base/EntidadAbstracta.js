@@ -9,7 +9,7 @@ class EntidadAbstracta {
 
     // si se instancia para test no se muestra el componente de gestion de entidad ni se inicializa el formulario
     //
-    if (esTest == "test") {
+    if (esTest) {
     } else {
       //visualizar seccion tabla y botones
       //document.getElementById('IU_manage_entity').style.display = 'block';
@@ -24,11 +24,6 @@ class EntidadAbstracta {
 
       //crear el formulario vacio
       //document.getElementById('contenedor_IU_form').innerHTML = this.manual_form_creation();
-
-      //invocar busqueda en back con el formulario vacio
-      if (!window?.uiManager) {
-        this.SEARCH();
-      }
     }
   }
 

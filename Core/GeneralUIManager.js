@@ -117,7 +117,6 @@ class UIManager {
       this.currentEntity?.defaultAction ||
       this.currentStructure?.defaultAction ||
       "SEARCH";
-    this.refreshAction(initialAction);
     const manageSection = document.getElementById("IU_manage_entity");
     manageSection?.classList.remove("hidden");
     if (manageSection) {
@@ -400,7 +399,7 @@ class UIManager {
   ensureFormVisibility() {
     const wrapper = document.getElementById("Div_IU_form");
     if (wrapper) {
-      wrapper.style.display = "block";
+      wrapper.style.display = "flex";
     }
   }
 
