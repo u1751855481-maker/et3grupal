@@ -3,7 +3,7 @@ const estructura_persona = {
   entity: "persona",
   attributes: {
     dni: {
-      label: "dni",
+      label: "DNI",
       is_null: false,
       html: {
         tag: "input",
@@ -56,7 +56,7 @@ const estructura_persona = {
       },
     },
     apellidos_persona: {
-      label: "apellidos_persona",
+      label: "Apellidos",
       is_null: false,
       html: {
         tag: "input",
@@ -80,7 +80,7 @@ const estructura_persona = {
       },
     },
     fechaNacimiento_persona: {
-      label: "fechaNacimiento_persona",
+      label: "Fecha de nacimiento",
       is_null: false,
       html: {
         tag: "input",
@@ -96,7 +96,7 @@ const estructura_persona = {
       },
     },
     direccion_persona: {
-      label: "direccion_persona",
+      label: "Dirección",
       is_null: false,
       html: {
         tag: "textarea",
@@ -112,7 +112,7 @@ const estructura_persona = {
       },
     },
     telefono_persona: {
-      label: "telefono_persona",
+      label: "Teléfono",
       is_null: false,
       html: {
         tag: "input",
@@ -128,7 +128,7 @@ const estructura_persona = {
       },
     },
     email_persona: {
-      label: "email_persona",
+      label: "Email",
       is_null: false,
       html: {
         tag: "input",
@@ -147,7 +147,7 @@ const estructura_persona = {
       },
     },
     titulacion_persona: {
-      label: "titulacion_persona",
+      label: "Titulación",
       is_null: false,
       html: {
         tag: "select",
@@ -162,12 +162,12 @@ const estructura_persona = {
       },
     },
     menu_persona: {
-      label: "menu_persona",
+      label: "Menú",
       is_null: true,
       html: {
         tag: "checkbox",
         multiple: true,
-        options: ["Vegano", "Celiaco", "AlergiaMarisco"],
+        options: ["Vegano", "Celíaco", "Alergia Marisco"],
       },
       rules: {
         validations: {
@@ -178,7 +178,7 @@ const estructura_persona = {
       },
     },
     habilidades_persona: {
-      label: "habilidades_persona",
+      label: "Habilidades",
       is_null: false,
       html: {
         tag: "select",
@@ -194,7 +194,7 @@ const estructura_persona = {
       },
     },
     genero_persona: {
-      label: "genero_persona",
+      label: "Género",
       is_null: false,
       html: {
         tag: "radio",
@@ -209,7 +209,7 @@ const estructura_persona = {
       },
     },
     acepta_privacidad: {
-      label: "acepta_privacidad",
+      label: "Acepta privacidad",
       is_null: false,
       html: {
         tag: "checkbox",
@@ -224,7 +224,7 @@ const estructura_persona = {
       },
     },
     foto_persona: {
-      label: "foto_persona",
+      label: "Foto",
       is_null: true,
       html: {
         tag: "input",
@@ -240,7 +240,7 @@ const estructura_persona = {
       },
     },
     nuevo_foto_persona: {
-      label: "nuevo_foto_persona",
+      label: "Nueva foto",
       is_null: true,
       html: {
         tag: "input",

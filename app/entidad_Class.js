@@ -8,7 +8,7 @@ class entidad extends EntidadAbstracta {
     this.mostrarespecial = ["atributo_ocho", "atributo_nueve"];
 
     // definicion de los atributos del formulario (Necesario para test de unidad)
-    this.attributes = [
+    this.atributos = [
       "atributo_uno",
       "atributo_dos",
       "atributo_tres",

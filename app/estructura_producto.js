@@ -3,7 +3,7 @@ const estructura_producto = {
     entity: 'producto',
     attributes: {
         codigo_producto: {
-            label: 'codigo_producto',
+            label: 'Código del producto',
             html: {
                 tag: 'input',
                 type: 'text',
@@ -18,7 +18,7 @@ const estructura_producto = {
             },
         },
         nombre_producto: {
-            label: 'nombre_producto',
+            label: 'Nombre',
             html: {
                 tag: 'input',
                 type: 'text',
@@ -33,7 +33,7 @@ const estructura_producto = {
             },
         },
         descripcion_producto: {
-            label: 'descripcion_producto',
+            label: 'Descripción',
             html: {
                 tag: 'textarea',
                 rows: 3,
