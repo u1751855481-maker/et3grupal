@@ -57,7 +57,6 @@ class EntidadAbstracta {
       .peticionBackGeneral("form_iu", this.nombreentidad, "SEARCH")
       .then((respuesta) => {
         //limpiar el formulario
-        //document.getElementById('contenedor_IU_form').innerHTML = this.manual_form_creation();
         this.dom.hide_element("Div_IU_form");
 
         if (respuesta["code"] == "RECORDSET_DATOS") {
@@ -74,9 +73,6 @@ class EntidadAbstracta {
           );
           this.dom.remove_class_value("IU_manage_table", "RECORDSET_");
           this.dom.assign_class_value("IU_manage_table", "RECORDSET_VACIO");
-          //document.getElementById("IU_manage_table").style.display = 'block';
-          //document.getElementById('IU_manage_table').innerHTML = 'No se han encontrado elementos que coincidan con la búsqueda';
-          //document.getElementById('IU_manage_table').className = 'RECORDSET_VACIO';
         }
 
         setLang();
