@@ -2,10 +2,10 @@ class entidad extends EntidadAbstracta {
   constructor(esTest) {
     super(esTest);
 
-    //definicion de atributos a mostrarn en la tabla de muestra de tuplas al entrar en la gestion de la entidad
-    this.columnasamostrar = ["atributo_uno", "atributo_dos", "atributo_tres"];
+    //definicion de atributos a mostrar en la tabla de muestra de tuplas al entrar en la gestion de la entidad
+    this.columnasamostrar = [0, 1, 2];
     //definicion de atributos a cambiar su visualización
-    this.mostrarespecial = ["atributo_ocho", "atributo_nueve"];
+    this.mostrarespecial = [7, 8];
 
     // definicion de los atributos del formulario (Necesario para test de unidad)
     this.atributos = [

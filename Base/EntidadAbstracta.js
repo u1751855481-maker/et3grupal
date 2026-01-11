@@ -233,28 +233,18 @@ class EntidadAbstracta {
    * muestra o no las columnas de la tabla segun indique columnasamostrar
    */
   mostrarocultarcolumnas() {
-    var estadodisplay = "";
-    // recorro todos los atributos de la tabla
-    for (let columna of this.atributos) {
-      // si el atributo esta en columnas a mostrar
-      // lo dejo como esta
-      if (this.columnasamostrar.includes(columna)) {
-        estadodisplay = "";
-      }
-      // si el atributo no esta en columnas a mostrar lo oculto
-      else {
-        estadodisplay = "none";
-      }
-      document.querySelector(
-        "th[class~='tabla-th-" + columna + "']",
-      ).style.display = estadodisplay;
-      let arraytds = document.querySelectorAll(
-        "td[class='tabla-td-" + columna + "']",
-      );
-      for (let i = 0; i < arraytds.length; i++) {
-        arraytds[i].style.display = estadodisplay;
-      }
-    }
+    this.atributos.forEach((columna, index) => {
+      const mostrar = this.columnasamostrar.includes(index)
+      const estadoDisplay = mostrar ? "" : "none"
+
+      const th = document.querySelector(`th[class~='tabla-th-${columna}']`)
+      if (th) th.style.display = estadoDisplay;
+
+      const arrayTDs = document.querySelectorAll(`td[class~='tabla-td-${columna}']`)
+      arrayTDs.forEach(td => {
+        td.style.display = estadoDisplay
+      })
+    })
   }
 
   /**
@@ -262,6 +252,7 @@ class EntidadAbstracta {
    * @param {string} atributo
    */
   modificarcolumnasamostrar(atributo) {
+    console.log('modificarcolumnasamostrar::EntidadAbstracta.js', atributo)
     if (this.columnasamostrar.includes(atributo)) {
       // borrar ese atributo
       this.columnasamostrar = this.columnasamostrar.filter(

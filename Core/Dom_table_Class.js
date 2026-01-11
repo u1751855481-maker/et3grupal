@@ -255,23 +255,26 @@ class dom_table {
    * @param {*} atributos
    */
   crearSeleccionablecolumnas(columnasamostrar, atributos) {
+    console.log('crearSeleccionablecolumnas::Dom_table_Class.js')
+    console.log(columnasamostrar)
+    console.log(atributos)
     const seleccionColumnas = document.getElementById('seleccioncolumnas')
     if (!seleccionColumnas) return;
     seleccionColumnas.innerHTML = "";
 
-    for (let atributo of atributos) {
-      var optionselect = document.createElement("option");
-      optionselect.className = atributo;
-      optionselect.innerHTML = atributo;
-      var textofuncion =
-        "window.entidad.modificarcolumnasamostrar('" + atributo + "');";
-      optionselect.setAttribute("onclick", textofuncion);
-      if (columnasamostrar.includes(atributo)) {
-        optionselect.selected = true;
+    atributos.forEach((atributo, index) => {
+      const optionSelect = document.createElement("option")
+      optionSelect.className = atributo
+      optionSelect.innerHTML = atributo
+      optionSelect.onclick = () => {
+        window.entidad.modificarcolumnasamostrar(index)
       }
-      seleccionColumnas.append(optionselect);
-    }
-    //setLang();
+
+      if (columnasamostrar.includes(index)) {
+        optionSelect.selected = true;
+      }
+      seleccionColumnas.append(optionSelect)
+    })
   }
 
   /**
