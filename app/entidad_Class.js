@@ -2,11 +2,6 @@ class entidad extends EntidadAbstracta {
   constructor(esTest) {
     super(esTest);
 
-    //definicion de atributos a mostrar en la tabla de muestra de tuplas al entrar en la gestion de la entidad
-    this.columnasamostrar = [0, 1, 2];
-    //definicion de atributos a cambiar su visualización
-    this.mostrarespecial = [7, 8];
-
     // definicion de los atributos del formulario (Necesario para test de unidad)
     this.atributos = [
       "atributo_uno",
@@ -714,7 +709,7 @@ class entidad extends EntidadAbstracta {
 
         if (respuesta["code"] == "RECORDSET_DATOS") {
           this.datos = respuesta["resource"];
-          this.atributos = Object.keys(this.datos[0]);
+          //this.atributos = Object.keys(this.datos[0]);
           this.dom.remove_class_value("IU_manage_table", "RECORDSET_");
           //crear la tabla de datos de la entidad del back
           this.crearTablaDatos(this.datos, this.mostrarespecial);

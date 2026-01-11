@@ -49,27 +49,5 @@ class ExternalAccess {
         console.error("Fetch error:", error);
         throw error;
       });
-
-    return new Promise(function (resolve) {
-      $.ajax({
-        type: "POST",
-        url: "http://193.147.87.202/ET2/index.php",
-        data: datos,
-        processData: false,
-        contentType: false,
-      })
-        .done((res) => {
-          resolve(res);
-        })
-        .fail((res) => {
-          const langManager = window?.generalUIManager?.languageManager;
-          const status = res?.status ?? "";
-          const template =
-            langManager?.getText?.("error.external.access") ||
-            "Se ha producido un error al contactar con el servidor ({status}).";
-          const message = template.replace("{status}", status);
-          alert(message);
-        });
-    });
   }
 }

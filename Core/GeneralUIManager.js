@@ -104,6 +104,7 @@ class UIManager {
    * @param {string} entityName Nombre lógico de la entidad.
    */
   loadEntity(entityName) {
+    console.log('GeneralUIManager::loadEntity', entityName)
     if (!entityName) return;
     this.currentEntity = this.instantiateEntity(entityName);
     this.currentStructure = this.resolveStructure(
